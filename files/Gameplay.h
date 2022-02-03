@@ -62,6 +62,7 @@ public:
 	vector<Enemy> enemies;
 	vector<Bullet> bullets;
 	bool chapterFinish = false;
+	bool pause = false;
 	Sprite background;
 	
 

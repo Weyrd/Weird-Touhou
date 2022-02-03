@@ -467,19 +467,20 @@ void Gameplay::key_pressed_mgr() {
 
 
 		if (this->game.event.type == sf::Event::KeyPressed) {
-			if (this->game.event.key.code == sf::Keyboard::P) {
+			if (this->game.event.key.code == sf::Keyboard::Escape) {
 				this->game.in_game = false;
 				this->chapterFinish = true;
 				cout << "Quit game." << endl;
 			}
 
 			if (this->game.event.key.code == sf::Keyboard::D) {
-				if (!this->debug) {
-					this->debug = true;
-				}
-				else {
-					this->debug = false;
-				}
+				if (!this->debug) { this->debug = true; }
+				else { this->debug = false; }
+			}
+
+			if (this->game.event.key.code == sf::Keyboard::P) {
+				if (!this->pause) { this->pause = true; }
+				else { this->pause = false; }
 			}
 
 		}
@@ -534,28 +535,31 @@ void Gameplay::game_update() {
 	while (!chapterFinish) {
 
 
+		if (!pause){
+			this->enemiesCenter.clear();
+			this->enemiesHitbox.clear();
 
-		this->enemiesCenter.clear();
-		this->enemiesHitbox.clear();
+			this->move_enemies();
+		
+			this->move_player();
 
+			this->move_bullets();
+			this->create_bullet_mgr();
 
-		this->move_enemies();
-		this->key_pressed_mgr();
-		this->move_player();
-
-		this->move_bullets();
-		this->create_bullet_mgr();
-
-		this->check_collision();
+			this->check_collision();
+			
+		}
 		this->draw_gameplay();
-
+		this->key_pressed_mgr();
 		this->game.fps_update(this->bullets.size(), this->enemiesCenter.size());
 		
 	}
 	this->chapterFinish = true;
+	//delete[] this->bullets;
 	this->bullets.clear();
 	this->enemies.clear();
 	/* delete le background + le perso ?*/
+	//delete this->player;
 }
 
 void Gameplay::draw_gameplay() {

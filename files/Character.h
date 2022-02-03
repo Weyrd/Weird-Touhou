@@ -34,7 +34,7 @@ public:
 
 	Character(Sprite sprite, Vector2f startPosition = Vector2f(0.f, 0.f), float Speed = 10.f, float life = 100.f, float offset = 0.f);
 	Character(float Speed = 10.f) ;
-	~Character(){}
+	~Character() { /*cout << "Delete Char life -> " << life << endl;*/ }
 
 	int get_time();
 	void restart_reload();

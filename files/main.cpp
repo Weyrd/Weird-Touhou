@@ -13,8 +13,7 @@ int get_random(int x, int y) {
 
 }
 
-int main()
-{
+int main() {
 	srand(time(NULL));
 	
 	/*sf::ContextSettings settings;

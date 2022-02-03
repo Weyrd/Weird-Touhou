@@ -12,7 +12,7 @@ using namespace std;
 
 class Menu {
 private:
-	vector<string> main_menu_id1{"Start", "Select Chapter", "Options" };
+	vector<string> main_menu_id1{"Start", "Select Chapter", "Options", "EXIT"};
 	vector<string> select_chapter_menu_id2{ "Chapter 1", "Chapter 2", "Chapter 3", "Back"};
 	vector<string> options_menu_id3{ "Options 1", "Options 2", "Options 3", "Back" };
 

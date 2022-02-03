@@ -234,6 +234,10 @@ void Menu::menu_id1() { // Main Menu
 		actual_menu = options_menu_id3;
 		id_menu = 3;
 	}
+
+	if (id_select == 3) {
+		//leave
+	}
 	this->id_select = 0;
 }
 

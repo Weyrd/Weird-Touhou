@@ -48,6 +48,10 @@ void Chapter::loadSpriteChap1() {
 	this->gameplay.background = this->createSprite("bg_chap_1", Vector2f(1.f, 1.f), true);
 
 	/*  --- CHARACTER AND ENNEMIES --- */
+	/*
+	Character* charPlayer = new Character (this->createSprite("Marisa"), Vector2f(150, this->game.window.getSize().y / 2), 12);
+	this->gameplay.player = (*charPlayer);
+	*/
 	Character charPlayer(this->createSprite("Marisa"), Vector2f(150, this->game.window.getSize().y / 2), 12);
 	this->gameplay.player = charPlayer;
 
