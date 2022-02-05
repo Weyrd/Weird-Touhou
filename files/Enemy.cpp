@@ -46,15 +46,15 @@ void Enemy::cirno(RessourceManager* resMgr) {
 	this->resMgr = resMgr;
 	this->startEnemyPosition = Vector2f(1300, 540);
 
-	/* Path */
+	/*  --- PATH --- */
 	Bezier::Bezier<3> curve_1({ {0, 0}, {200, -1080}, {1330, 1230}, {0, 0} });
 	Bezier::Bezier<3> curve_2({ {0, 0}, {-200, 1080}, {-1330, -1230}, {0, 0} });
 	Path path_1 = Path(5000, 10, curve_1);
-	Path path_2 = Path(10000, 10, curve_2);
+	Path path_2 = Path(10000, 0, curve_2);
 	
 	this->allPath.insert(this->allPath.end(), { path_1, path_2 });
 
-	/* Enemies */
+	/*  --- ENNEMIES --- */
 	float speed = this->allPath[0].speed;
 	Character cirno(this->createSprite("Cirno", Vector2f(0.2, 0.2)), this->startEnemyPosition, speed, 600, 3000);
 
@@ -62,7 +62,7 @@ void Enemy::cirno(RessourceManager* resMgr) {
 	
 	
 
-	/* Bullets */
+	/*  --- BULLETS --- */
 	this->timePatterBullets = 10000;
 	Weapon weapon_ball_glass_blue;
 	weapon_ball_glass_blue.create_ball_glass_blue(this->resMgr, 250);
@@ -77,7 +77,7 @@ void Enemy::brown_pattern1(RessourceManager* resMgr) {
 	this->resMgr = resMgr;
 	this->startEnemyPosition = Vector2f(1500, 300);
 
-	/* Path */
+	/*  --- PATH --- */
 	Bezier::Bezier<3> curve_1({ {0, 0}, {800, 500}, {-500, 250}, {0, 0} });
 	Path path_1 = Path(100000, 10, curve_1);
 
@@ -85,7 +85,7 @@ void Enemy::brown_pattern1(RessourceManager* resMgr) {
 
 
 
-	/* Enemies */
+	/*  --- ENNEMIES --- */
 	float speed = this->allPath[0].speed;
 	Character brown(this->createSprite("brown", Vector2f(1.7, 1.7)), this->startEnemyPosition, speed, 200);
 	Character brown2(this->createSprite("brown", Vector2f(1.7, 1.7)), this->startEnemyPosition, speed, 200, 1500);

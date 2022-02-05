@@ -2,8 +2,9 @@
 #include "Bullet.h"
 
 
-Bullet::Bullet(Sprite bulletSprite, float damageBullet, Vector2f startPosDiff, Vector2f dir, float BulletSpeed,  bool autoAimB, bool fromPlayerB)  {
+Bullet::Bullet(int id, Sprite bulletSprite, float damageBullet, Vector2f startPosDiff, Vector2f dir, float BulletSpeed,  bool autoAimB, bool fromPlayerB)  {
 
+		this->id = id;
 		this->damage = damageBullet;
 		this->direction = dir;
 		this->shape = bulletSprite;
@@ -16,15 +17,15 @@ Bullet::Bullet(Sprite bulletSprite, float damageBullet, Vector2f startPosDiff, V
 		this->fromPlayer = fromPlayerB;
 
 		this->startPosDiff = startPosDiff;
+		
 }
 
 
-Bullet::Bullet(float damageBullet, Vector2f dir, float BulletSpeed, bool autoAimB, bool fromPlayerB) {
+Bullet::Bullet(int id, float damageBullet, Vector2f dir, float BulletSpeed, bool autoAimB, bool fromPlayerB){
+	this->id = id;
 	this->direction = dir;
 	this->damage = damageBullet;
 	this->speed = BulletSpeed;
 	this->autoAim = autoAimB;
 	this->fromPlayer = fromPlayerB;
 }
-
-

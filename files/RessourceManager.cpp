@@ -20,7 +20,7 @@ sf::Texture& RessourceManager::getRefTex(const std::string& texture)
 }
 
 
-
+/* Fonts */
 void RessourceManager::loadFont(const std::string& name, const std::string& filename)
 {
 	sf::Font font;
@@ -36,6 +36,22 @@ sf::Font& RessourceManager::getRefFont(const std::string& font)
 	return this->fonts.at(font);
 }
 
+
+/* SoundBuffer */
+void RessourceManager::loadSoundBuffer(const std::string& name, const std::string& filename)
+{
+	sf::SoundBuffer soundBuffer;
+	soundBuffer.loadFromFile(filename);
+
+	this->soundBuffer[name] = soundBuffer;
+
+	return;
+}
+
+sf::SoundBuffer& RessourceManager::getRefSoundBuffer(const std::string& soundBuffer)
+{
+	return this->soundBuffer.at(soundBuffer);
+}
 
 void RessourceManager::clear() {
 }

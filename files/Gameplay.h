@@ -28,11 +28,14 @@ private:
 
 	Vector2f debugClosetEnemy = Vector2f(0,0);
 	bool debug = false;
+	float score = 0;
 
 	Game& game;
 
 	int weaponLevel = 0;
-
+	Text displayLife;
+	Text displayScore;
+	Text displayPower;
 
 	
 	void loadSprite();
@@ -48,25 +51,32 @@ private:
 	void move_player();
 	void move_bullets();
 	void check_collision();
-	void create_bullets(Weapon weapon, bool fromPlayer = true, bool autoAim = false);
+	
 
 
 	void draw_gameplay();
+	void displayInfo_update();
+	void pause_open_menu();
 
 	vector<RectangleShape> colisions;
 
 
 public:
+	map<int, Sound> bulletSoundMgr;
 	map<string, Weapon> bulletMgr;
 	Character player;
 	vector<Enemy> enemies;
 	vector<Bullet> bullets;
 	bool chapterFinish = false;
 	bool pause = false;
+
 	Sprite background;
+	Sprite gameplay_background;
+	Sound music;
 	
 
 	//Gameplay(RenderWindow& windowPointer, Clock& clock);
+	void create_bullets(Weapon weapon, bool fromPlayer = true, bool autoAim = false);
 	Gameplay(Game&game);
 	void chapter_run();
 	void game_update();

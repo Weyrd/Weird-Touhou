@@ -19,7 +19,7 @@ int main() {
 	/*sf::ContextSettings settings;
 	settings.antialiasingLevel = 89;*/
 	
-	RenderWindow window(VideoMode(1920, 1080), "jsépa");//, settings
+	RenderWindow window(VideoMode(1486, 1293), "jsépa");//, settings
 	Game game(window);
 
 	game._run();

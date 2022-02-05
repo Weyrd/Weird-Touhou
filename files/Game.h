@@ -7,7 +7,6 @@
 
 
 class Gameplay;
-class Menu;
 
 using namespace sf;
 using namespace std;
@@ -29,8 +28,11 @@ public:
 	RenderWindow& window;
 	RessourceManager resMgr;
 
+
 	int chapter = 1;
 	bool in_game = false;
+	float volumeMusic = 0;
+	float volumeSFX = 40;
 
 	Text info;
 

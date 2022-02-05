@@ -17,6 +17,7 @@ public:
 	Vector2f center;
 
 	float life;
+	float power = 1;
 
 	float Speed;
 	float offset;

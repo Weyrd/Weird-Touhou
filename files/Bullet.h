@@ -6,9 +6,9 @@ using namespace std;
 
 
 
-class Bullet
-{
+class Bullet{
 public:
+	int id = 0;
 	Sprite shape;
 	Vector2f sizeSprite;
 	
@@ -21,11 +21,14 @@ public:
 
 	float speed;
 	float damage;
+
+
 	
-	Bullet(Sprite bulletSprite, float damageBullet, Vector2f startPosDiff = Vector2f(0.f, 0.f), Vector2f coefDir = Vector2f(1.f, 0.f), float BulletSpeed = 15.f,
+	Bullet(int id,  Sprite bulletSprite, float damageBullet, Vector2f startPosDiff = Vector2f(0.f, 0.f), Vector2f coefDir = Vector2f(1.f, 0.f), float BulletSpeed = 15.f,
 		bool autoAim = false, bool fromPlayer = true);
 
-	Bullet(float damageBullet, Vector2f dir = Vector2f(1.f, 0.f), float BulletSpeed = 15.f,
+	// Sound bulletSound
+	Bullet(int id, float damageBullet, Vector2f dir = Vector2f(1.f, 0.f), float BulletSpeed = 15.f,
 		bool autoAim = false, bool fromPlayer = true);
 
 };

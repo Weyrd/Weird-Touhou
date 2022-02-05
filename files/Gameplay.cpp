@@ -24,16 +24,8 @@ Gameplay::Gameplay(Game& game)
 
 void Gameplay::loadSprite() {
 	Chapter load_chapter(this->game, (*this));
+	load_chapter.loadfilesChap(this->game.chapter);
 
-	switch (this->game.chapter) {
-		case 1:
-			load_chapter.loadTextureChap1();
-			load_chapter.loadSpriteChap1();
-			
-			break;
-		default:
-			break;
-	}
 	cout << "Chap \"" << this->game.chapter << "\" load." << endl;
 
 }
@@ -283,7 +275,7 @@ Vector2f Gameplay::getClosestEnemy(Bullet bulletAim) {
 }
 
 
-/* Bullets */
+/* --- BULLETS --- */
 /* Pas opti 2 bonsoir ? */
 void Gameplay::check_collision() {
 	for (int b = 0; b < this->bullets.size(); b++) { // for bullets
@@ -446,6 +438,7 @@ void Gameplay::create_bullets(Weapon weapon, bool fromPlayer, bool autoAim) {
 			}
 
 			bullet_.direction = targetDir * bullet_.speed;
+			this->bulletSoundMgr[bullet_.id].play(); //////// piouuuuuuuuuuuuuuuuuuuuuuuuuuuu
 			this->bullets.push_back(Bullet(bullet_)); 
 		}
 
@@ -470,6 +463,7 @@ void Gameplay::key_pressed_mgr() {
 			if (this->game.event.key.code == sf::Keyboard::Escape) {
 				this->game.in_game = false;
 				this->chapterFinish = true;
+				this->music.stop();
 				cout << "Quit game." << endl;
 			}
 
@@ -522,7 +516,24 @@ void Gameplay::create_bullet_mgr() {
 
 
 void Gameplay::chapter_run() {
+	this->chapterFinish = false;
 	this->loadSprite();
+
+	float verticalSize = (float)this->game.window.getSize().x - (78 * this->game.window.getSize().x / 100);
+	float horizontalSize = (float)this->game.window.getSize().y - (25.6 * this->game.window.getSize().y / 100);
+
+	this->displayScore.setFont(this->game.resMgr.getRefFont("Touhoufont"));
+	this->displayScore.setCharacterSize(45);
+	this->displayScore.setPosition(verticalSize, horizontalSize);
+
+	this->displayLife.setFont(this->game.resMgr.getRefFont("Touhoufont"));
+	this->displayLife.setCharacterSize(45);
+	this->displayLife.setPosition(verticalSize, horizontalSize + 70);
+
+	this->displayPower.setFont(this->game.resMgr.getRefFont("Touhoufont"));
+	this->displayPower.setCharacterSize(45);
+	this->displayPower.setPosition(verticalSize, horizontalSize + 70 *2);
+
 	this->game_update();
 }
 
@@ -531,7 +542,7 @@ void Gameplay::chapter_run() {
 
 
 void Gameplay::game_update() {
-	this->chapterFinish = false;
+	
 	while (!chapterFinish) {
 
 
@@ -547,25 +558,37 @@ void Gameplay::game_update() {
 			this->create_bullet_mgr();
 
 			this->check_collision();
-			
 		}
-		this->draw_gameplay();
+
 		this->key_pressed_mgr();
+		this->displayInfo_update();
 		this->game.fps_update(this->bullets.size(), this->enemiesCenter.size());
+
+		/* Drawing */
+		this->game.window.clear();
+		this->draw_gameplay();
+		if(pause) { this->pause_open_menu(); }
+		this->game.window.display();
 		
 	}
 	this->chapterFinish = true;
-	//delete[] this->bullets;
 	this->bullets.clear();
 	this->enemies.clear();
 	/* delete le background + le perso ?*/
 	//delete this->player;
 }
 
-void Gameplay::draw_gameplay() {
+void Gameplay::displayInfo_update() {
+	this->displayLife.setString(to_string(this->player.life));
+	this->displayScore.setString(to_string(this->score));
+	this->displayPower.setString(to_string(this->player.power));
+}
 
-	this->game.window.clear();
+void Gameplay::draw_gameplay() {
+		// ordre d'affichage ? perso sous les bullets ?
+	
 	this->game.window.draw(this->background);
+	this->game.window.draw(this->gameplay_background);
 
 	/* Draw bullet */
 	for (size_t i = 0; i < this->bullets.size(); i++)
@@ -583,6 +606,7 @@ void Gameplay::draw_gameplay() {
 
 			this->game.window.draw(shape);
 		}
+
 
 		//enemy target 
 		sf::RectangleShape shape(sf::Vector2f(120, 120));
@@ -634,6 +658,9 @@ void Gameplay::draw_gameplay() {
 	}
 
 	
+	/* DRAW PERSO STATS */
+
+
 
 	if (this->debug) { // DEBUG
 		/* Draw impact */
@@ -645,12 +672,28 @@ void Gameplay::draw_gameplay() {
 	
 
 	
+	
+
+	this->game.window.draw(this->displayScore);
+	this->game.window.draw(this->displayLife);
+	this->game.window.draw(this->displayPower);
+
 	this->game.window.draw(player.shape);
 	this->game.window.draw(player.hitbox);
 	this->game.window.draw(this->game.info);
-	this->game.window.display();
+	
 }
 
+void Gameplay::pause_open_menu() {
+	this->music.pause();
+	Menu pause_menu(this->game);
+	pause_menu.main_menu_run();
+
+	this->pause = false;
+	this->music.play();
+	//if return to the main screen
+	if (!this->game.in_game){ this->chapterFinish = true;}
+}
 
 
 

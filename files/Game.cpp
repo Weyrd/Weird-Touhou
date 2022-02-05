@@ -14,9 +14,11 @@ Game::Game(RenderWindow & windowPost)
 
 void Game::loadFonts() {
 	this->resMgr.loadFont("AnimeRegular", "Assets/Fonts/anime-ace.regular.ttf");
+	this->resMgr.loadFont("Touhoufont", "Assets/Fonts/DFPPOPCorn-W12.ttf");
+
 	
 
-	info.setFont(this->resMgr.getRefFont("AnimeRegular"));
+	info.setFont(this->resMgr.getRefFont("Touhoufont"));
 	info.setCharacterSize(15);
 	
 }
@@ -33,7 +35,6 @@ void Game::_run() {
 	this->loadFonts();
 
 	Gameplay loadGameplay((*this));
-
 	Menu loadMenu((*this));
 
 
@@ -41,15 +42,10 @@ void Game::_run() {
 
 	while (this->window.isOpen())
 	{
-		if (!this->in_game) {
-			loadMenu.main_menu_run();
-		}
-		else {
-			loadGameplay.chapter_run();
-		}
+		if (!this->in_game) { loadMenu.main_menu_run(); }
+		else { loadGameplay.chapter_run(); }
 		
 		this->window.clear();
-
 
 	}
 

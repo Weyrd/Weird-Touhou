@@ -24,12 +24,14 @@ private:
 
 	Game& game;
 	Gameplay& gameplay;
-	Sprite createSprite(string textureName, Vector2f size = Vector2f(1.f, 1.f), bool background = false);
+	//type_id 0 = sprite; 1 = background; 2 = gameplay background
+	Sprite createSprite(string textureName, Vector2f size = Vector2f(1.f, 1.f), int type_id = 0);
 	
 
 public:
-	void loadTextureChap1();
-	void loadSpriteChap1();
+	void loadfilesChap(int chapter);
+	void loadFilesChap1();
+	void useRessourcesChap1();
 
 
 	Chapter(Game& game, Gameplay& gameplay);
