@@ -86,8 +86,9 @@ void Weapon::create_ball_glass_red(RessourceManager* resMgr, float reloadTime) {
 
 	Bullet bullet_ball_glass_red1(1, this->createSprite("bullet_ball_glass_red", Vector2f(1.5, 1.5)), damage, Vector2f(0, -50), Vector2f(1, 0), 10, false);
 	Bullet bullet_ball_glass_red2(1, this->createSprite("bullet_ball_glass_red", Vector2f(1.3, 1.3)), damage, Vector2f(0, 50), Vector2f(1, 0), 10, false);
+	Bullet bullet_ball_glass_red3(1, this->createSprite("bullet_ball_glass_red", Vector2f(1.3, 1.3)), damage, Vector2f(0, 150), Vector2f(1, 0), 10, false);
 
-	this->bullets.insert(this->bullets.end(), { bullet_ball_glass_red1, bullet_ball_glass_red2 });
+	this->bullets.insert(this->bullets.end(), { bullet_ball_glass_red1, bullet_ball_glass_red2, bullet_ball_glass_red3 });
 
 }
 

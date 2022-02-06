@@ -12,6 +12,7 @@ using namespace std;
 
 class Menu {
 private:
+	/* Menu */
 	vector<string> main_menu_id1{"Start", "Select Chapter", "Options", "Quit game"};
 	vector<string> select_chapter_menu_id2{ "Chapter 1", "Chapter 2", "Chapter 3", "Back"};
 	vector<string> options_menu_id3{ "Volume music :", "Volume SFX :", "Back" };
@@ -24,22 +25,26 @@ private:
 	vector<Text> menu_values;
 
 	int id_select = 0;
-	int id_value_select = 0;
 	int id_menu = 1;
 
-	bool value_select = false;
-
-	bool debug = false;
-	Game& game;
+	/* Some config var*/
 	Color outlineColor = Color(142, 142, 142, 175);
+	Game& game;
+	bool debug = false;
 
 	Sprite background;
-	Sound main_theme_music;
 
+	/* Music & Sounds */
+	Sound main_theme_music;
+	Sound menu_sound_select;
+
+
+	/* Init Functions*/
 	void loadMainMenuFiles();
 	void useRessourcesMenu();
 	Sprite createSprite(string textureName, Vector2f size = Vector2f(1.f, 1.f), bool background = false);
 
+	/* Menu::Menu Functions*/
 	void menu_update();
 	void updateOptionsValues();
 	void draw_menu();
@@ -49,6 +54,7 @@ private:
 	void userMenuChoice();
 
 
+	/* Menu Functions */
 	void menu_id1();
 	void menu_id2();
 	void menu_id3();

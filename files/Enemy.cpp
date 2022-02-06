@@ -49,8 +49,8 @@ void Enemy::cirno(RessourceManager* resMgr) {
 	/*  --- PATH --- */
 	Bezier::Bezier<3> curve_1({ {0, 0}, {200, -1080}, {1330, 1230}, {0, 0} });
 	Bezier::Bezier<3> curve_2({ {0, 0}, {-200, 1080}, {-1330, -1230}, {0, 0} });
-	Path path_1 = Path(5000, 10, curve_1);
-	Path path_2 = Path(10000, 0, curve_2);
+	Path path_1 = Path(5000, 20, curve_1);
+	Path path_2 = Path(10000, 10, curve_2);
 	
 	this->allPath.insert(this->allPath.end(), { path_1, path_2 });
 

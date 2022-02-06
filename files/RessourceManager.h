@@ -1,10 +1,10 @@
 #pragma once
 #include "Header.h"
 
+using namespace sf;
+using namespace std;
 
-
-class RessourceManager
-{
+class RessourceManager {
 private:
 
     /* Array of textures used */
@@ -26,8 +26,6 @@ public:
 
     void clear();
     /* Constructor */
-    RessourceManager()
-    {
-    }
+    RessourceManager(){ }
 };
 

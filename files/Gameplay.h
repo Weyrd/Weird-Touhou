@@ -72,7 +72,9 @@ public:
 
 	Sprite background;
 	Sprite gameplay_background;
+
 	Sound music;
+	Sound volumeSFX;
 	
 
 	//Gameplay(RenderWindow& windowPointer, Clock& clock);

@@ -21,7 +21,7 @@ Gameplay::Gameplay(Game& game)
 
 
 
-
+/* --- INIT --- */
 void Gameplay::loadSprite() {
 	Chapter load_chapter(this->game, (*this));
 	load_chapter.loadfilesChap(this->game.chapter);
@@ -33,7 +33,7 @@ void Gameplay::loadSprite() {
 
 
 
-/* Moves */
+/* --- MOVES --- */
 void Gameplay::move_player() {
 
 	this->player.center = Vector2f(this->player.shape.getPosition().x + this->player.sizeSprite.x / 2,
@@ -41,25 +41,25 @@ void Gameplay::move_player() {
 
 
 	if (Keyboard::isKeyPressed(Keyboard::Left)) {
-		if (player.shape.getPosition().x > 0) {
+		if (player.shape.getPosition().x > (float)(3 * this->game.window.getSize().x / 100)) { // 3ù% de l'écran
 			player.shape.move(-player.Speed, 0.f);
 			player.hitbox.move(-player.Speed, 0.f);
 		}
 	}
 	if (Keyboard::isKeyPressed(Keyboard::Right)) {
-		if (player.shape.getPosition().x + player.sizeSprite.x < this->game.window.getSize().x) {
+		if (player.shape.getPosition().x + player.sizeSprite.x < (float)(97.5 * this->game.window.getSize().x / 100)) {
 			player.shape.move(player.Speed, 0.f);
 			player.hitbox.move(player.Speed, 0.f);
 		}
 	}
 	if (Keyboard::isKeyPressed(Keyboard::Up)) {
-		if (player.shape.getPosition().y > 0) {
+		if (player.shape.getPosition().y > (float)(4. * this->game.window.getSize().y / 100)) {
 			player.shape.move(0.f, -player.Speed);
 			player.hitbox.move(0.f, -player.Speed);
 		}
 	}
 	if (Keyboard::isKeyPressed(Keyboard::Down)) {
-		if (player.shape.getPosition().y + player.sizeSprite.y < this->game.window.getSize().y > 0) {
+		if (player.shape.getPosition().y + player.sizeSprite.y < (float)(70 * this->game.window.getSize().y / 100)) {
 			player.shape.move(0.f, player.Speed);
 			player.hitbox.move(0.f, player.Speed);
 		}
@@ -175,7 +175,7 @@ void Gameplay::move_enemies() {
 
 
 
-/* Aim */
+/* --- AIM --- */
 /* Pas opti bonjour ? */
 Vector2f Gameplay::getAutoAim(Bullet bulletAim, Vector2f targetPos) {
 	Vector2f dirTarget;
@@ -393,8 +393,7 @@ void Gameplay::create_bullets(Weapon weapon, bool fromPlayer, bool autoAim) {
 
 	if (weapon.get_reload() < 0) {
 
-		for (size_t i = 0; i < weapon.bullets.size(); i++)
-		{
+		for (size_t i = 0; i < weapon.bullets.size(); i++) {
 			Bullet bullet_ = weapon.bullets[i];
 
 			Vector2f bulletCenter = Vector2f( //center in front of players, sprite
@@ -407,6 +406,7 @@ void Gameplay::create_bullets(Weapon weapon, bool fromPlayer, bool autoAim) {
 
 			// Bullet from player
 			if (bullet_.fromPlayer) {
+				this->bulletSoundMgr[bullet_.id].play(); //////// piouuuuuuuuuuuuuuuuuuuuuuuuuuuu
 			
 
 				// Bullet with autoAim | calcul from player to closest enemy
@@ -438,7 +438,7 @@ void Gameplay::create_bullets(Weapon weapon, bool fromPlayer, bool autoAim) {
 			}
 
 			bullet_.direction = targetDir * bullet_.speed;
-			this->bulletSoundMgr[bullet_.id].play(); //////// piouuuuuuuuuuuuuuuuuuuuuuuuuuuu
+			
 			this->bullets.push_back(Bullet(bullet_)); 
 		}
 
@@ -514,7 +514,7 @@ void Gameplay::create_bullet_mgr() {
 
 
 
-
+/* --- START --- */
 void Gameplay::chapter_run() {
 	this->chapterFinish = false;
 	this->loadSprite();
@@ -584,10 +584,23 @@ void Gameplay::displayInfo_update() {
 	this->displayPower.setString(to_string(this->player.power));
 }
 
+void Gameplay::pause_open_menu() {
+	this->music.pause();
+	Menu pause_menu(this->game);
+	pause_menu.main_menu_run();
+
+	this->pause = false;
+	this->music.play();
+	//if return to the main screen
+	if (!this->game.in_game) { this->chapterFinish = true; }
+}
+
+
+/* --- DRAWING --- */
 void Gameplay::draw_gameplay() {
 		// ordre d'affichage ? perso sous les bullets ?
 	
-	this->game.window.draw(this->background);
+	
 	this->game.window.draw(this->gameplay_background);
 
 	/* Draw bullet */
@@ -658,8 +671,7 @@ void Gameplay::draw_gameplay() {
 	}
 
 	
-	/* DRAW PERSO STATS */
-
+	
 
 
 	if (this->debug) { // DEBUG
@@ -671,29 +683,25 @@ void Gameplay::draw_gameplay() {
 	}
 	
 
+	/* Draw player */
+	this->game.window.draw(player.shape);
+	this->game.window.draw(player.hitbox);
 	
-	
+	/* Draw background */
+	this->game.window.draw(this->background);
 
+	/* DRAW PERSO STATS */
 	this->game.window.draw(this->displayScore);
 	this->game.window.draw(this->displayLife);
 	this->game.window.draw(this->displayPower);
 
-	this->game.window.draw(player.shape);
-	this->game.window.draw(player.hitbox);
 	this->game.window.draw(this->game.info);
+
+	
 	
 }
 
-void Gameplay::pause_open_menu() {
-	this->music.pause();
-	Menu pause_menu(this->game);
-	pause_menu.main_menu_run();
 
-	this->pause = false;
-	this->music.play();
-	//if return to the main screen
-	if (!this->game.in_game){ this->chapterFinish = true;}
-}
 
 
 

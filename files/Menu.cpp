@@ -45,7 +45,7 @@ void Menu::key_pressed_mgr() {
 }
 
 
-/* Sprite and texture builder */
+/* ---  Sprite and texture builder --- */
 Sprite Menu::createSprite(string textureName, Vector2f size, bool background) {
 
 	sf::Sprite sprite;
@@ -65,6 +65,7 @@ void Menu::loadMainMenuFiles() {
 	//background
 	this->game.resMgr.loadTexture("bg_main_menu", "Assets/Background/mainMenu2.png");
 	this->game.resMgr.loadSoundBuffer("menu_theme", "Assets/Sounds/1 main_menu.wav");
+	this->game.resMgr.loadSoundBuffer("menu_sound_select", "Assets/Sounds/UI/menu_sound_select.wav");
 
 	this->useRessourcesMenu();
 }
@@ -72,6 +73,13 @@ void Menu::loadMainMenuFiles() {
 void Menu::useRessourcesMenu() {
 	//background
 	this->background = this->createSprite("bg_main_menu", Vector2f(1.f, 1.f), true);
+
+
+	// sounds 
+	Sound menu_sound_select;
+	menu_sound_select.setBuffer(this->game.resMgr.getRefSoundBuffer("menu_sound_select"));
+	menu_sound_select.setVolume(this->game.volumeSFX);
+	this->menu_sound_select = menu_sound_select;
 
 	Sound main_theme_music;
 	main_theme_music.setBuffer(this->game.resMgr.getRefSoundBuffer("menu_theme"));
@@ -84,8 +92,10 @@ void Menu::useRessourcesMenu() {
 
 	
 }
- /* Fin Ressources */
+/* --- Fin Ressources --- */
 
+
+/* --- BUILD MENU --- */
 void Menu::updateOptionsValues() {
 	this->option_menu_id3_values.clear();
 	this->option_menu_id3_values.insert(this->option_menu_id3_values.end(), {(int)this->game.volumeMusic, (int)this->game.volumeSFX });
@@ -144,23 +154,24 @@ void Menu::Build_menu() {
 		}
 	}
 
-	if (!value_select) {
 		this->menu_list_draw[this->id_select].setOutlineThickness(4);
 		this->menu_list_draw[this->id_select].setOutlineColor(outlineColor);
-	}
 }
 
 
+/* --- USER INTERRACTIONS --- */
 void Menu::userMove(int select) {
 	this->menu_list_draw[this->id_select].setOutlineThickness(0);
 	if (select == 1) { // up
-		if (this->id_select > 0 && !value_select) { this->id_select--; }
-		else if(!value_select) { this->id_select = this->menu_list_draw.size() - 1; }
+		if (id_select > 0) { id_select--; }
+		else  {id_select = this->menu_list_draw.size() - 1; }
+		this->menu_sound_select.play();
 	}
-	if(select == 2) { //down
-		if (this->id_select < this->menu_list_draw.size()-1 && !value_select) { this->id_select++; }
-		else if(!value_select) { this->id_select = 0; }
 
+	if(select == 2) { //down
+		if (id_select < this->menu_list_draw.size()-1) { id_select++; }
+		else { id_select = 0; }
+		this->menu_sound_select.play();
 	}
 
 	
@@ -168,10 +179,8 @@ void Menu::userMove(int select) {
 	//options
 	if (id_menu == 3) { menu_id3(select); }
 
-	if (!value_select) {
-		this->menu_list_draw[this->id_select].setOutlineThickness(4);
-		this->menu_list_draw[this->id_select].setOutlineColor(outlineColor);
-	}
+		this->menu_list_draw[id_select].setOutlineThickness(4);
+		this->menu_list_draw[id_select].setOutlineColor(outlineColor);
 
 	
 }
@@ -196,6 +205,7 @@ void Menu::userMenuChoice() {
 }
 
 
+/* --- START MENU --- */
 void Menu::main_menu_run() {
 	
 
@@ -215,7 +225,6 @@ void Menu::main_menu_run() {
 }
 
 
-
 void Menu::menu_update() {
 	this->quitMenu = false;
 	while (!quitMenu) {
@@ -230,6 +239,7 @@ void Menu::menu_update() {
 }
 
 
+/* --- DRAWING --- */
 void Menu::draw_menu() {
 
 	this->game.window.clear();
@@ -354,47 +364,46 @@ void Menu::menu_id3() { // Select chapter
 }
 
 void Menu::menu_id3(int select) {
-	if (select == 1 && value_select) { // up
-		switch (id_value_select) {
-		case 0: // volume music
-			if (this->game.volumeMusic < 100) {this->game.volumeMusic += 10; }
-			break;
-		default:
-			break;
-		}
-	}
-
-
-	if (select == 2 && value_select) { //down
-		switch (id_value_select) {
-		case 0: // volume music
-			if (this->game.volumeMusic > 0) { this->game.volumeMusic -= 10; }
-			break;
-		default:
-			break;
-		}
-	}
-		
 	
 
-	if (select == 4 && this->id_select < this->menu_list_draw.size() - 1 && !value_select) { //Right // on select le meme
-		this->id_value_select = id_select;
-		this->menu_list_draw[this->id_select].setOutlineThickness(0);
-		value_select = true;
+	if (select == 4 && this->id_select < this->option_menu_id3_values.size()) { // right
+		switch (id_select) {
+		case 0: // volume music
+			if (this->game.volumeMusic < 100) {
+				this->game.volumeMusic += 10; this->main_theme_music.setVolume(this->game.volumeMusic);
+				this->menu_sound_select.play();}
+		
+			break;
+		case 1: // volume volumeSFX
+			if (this->game.volumeSFX < 100) {
+				this->game.volumeSFX += 10; this->menu_sound_select.setVolume(this->game.volumeSFX);
+				this->menu_sound_select.play();}
+			break;
+		default:
+			break;
+		}
 
 	}
 
-	if (select == 3 && this->id_select < this->menu_list_draw.size() - 1 && value_select) {//left // on deselect
-		this->menu_values[this->id_value_select].setOutlineThickness(0);
-		this->menu_list_draw[this->id_select].setOutlineThickness(4);
-		this->menu_list_draw[this->id_select].setOutlineColor(outlineColor);
-		value_select = false;
+	if (select == 3 && this->id_select < this->option_menu_id3_values.size()) {// Left
+		
+		switch (id_select) {
+		case 0: // volume music
+			if (this->game.volumeMusic > 0) {
+				this->game.volumeMusic -= 10; this->main_theme_music.setVolume(this->game.volumeMusic);
+				this->menu_sound_select.play();}
+			break;
+		case 1: // volume volumeSFX
+			if (this->game.volumeSFX > 0) {
+				this->game.volumeSFX -= 10; this->menu_sound_select.setVolume(this->game.volumeSFX);
+				this->menu_sound_select.play();}
+			break;
+		default:
+			break;
+		}
 	}
 
-	if (value_select) {
-		this->menu_values[this->id_value_select].setOutlineThickness(4);
-		this->menu_values[this->id_value_select].setOutlineColor(outlineColor);
-	}
+	
 	
 	this->Build_menu();
 }
