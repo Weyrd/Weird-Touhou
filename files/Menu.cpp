@@ -63,10 +63,10 @@ Sprite Menu::createSprite(string textureName, Vector2f size, bool background) {
 
 void Menu::loadMainMenuFiles() {
 	//background
-	this->game.resMgr.loadTexture("bg_main_menu", "Assets/Background/mainMenu2.png");
-	this->game.resMgr.loadSoundBuffer("menu_theme", "Assets/Sounds/1 main_menu.wav");
+	this->game.resMgr.loadTexture("bg_main_menu", "Assets/Background/mainMenu.png");
+	this->game.resMgr.loadSoundBuffer("menu_theme", "Assets/Sounds/Musics/1_main_theme_menu_NoName.wav");
 	this->game.resMgr.loadSoundBuffer("menu_sound_select", "Assets/Sounds/UI/menu_sound_select.wav");
-
+	this->game.resMgr.loadSoundBuffer("menu_sound_enter", "Assets/Sounds/UI/menu_sound_enter.wav");
 	this->useRessourcesMenu();
 }
 
@@ -80,6 +80,11 @@ void Menu::useRessourcesMenu() {
 	menu_sound_select.setBuffer(this->game.resMgr.getRefSoundBuffer("menu_sound_select"));
 	menu_sound_select.setVolume(this->game.volumeSFX);
 	this->menu_sound_select = menu_sound_select;
+
+	Sound menu_sound_enter;
+	menu_sound_enter.setBuffer(this->game.resMgr.getRefSoundBuffer("menu_sound_enter"));
+	menu_sound_enter.setVolume(this->game.volumeSFX);
+	this->menu_sound_enter = menu_sound_enter;
 
 	Sound main_theme_music;
 	main_theme_music.setBuffer(this->game.resMgr.getRefSoundBuffer("menu_theme"));
@@ -186,6 +191,7 @@ void Menu::userMove(int select) {
 }
 
 void Menu::userMenuChoice() {
+	this->menu_sound_enter.play();
 	switch (id_menu) {
 		case 1: //main menu
 			this->menu_id1();

@@ -586,10 +586,13 @@ void Gameplay::displayInfo_update() {
 
 void Gameplay::pause_open_menu() {
 	this->music.pause();
+	Time timeMusic = this->music.getPlayingOffset();
 	Menu pause_menu(this->game);
 	pause_menu.main_menu_run();
 
 	this->pause = false;
+	this->music.setPlayingOffset(timeMusic);
+	this->music.setVolume(this->game.volumeMusic);
 	this->music.play();
 	//if return to the main screen
 	if (!this->game.in_game) { this->chapterFinish = true; }

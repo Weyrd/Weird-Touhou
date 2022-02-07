@@ -37,6 +37,7 @@ private:
 	/* Music & Sounds */
 	Sound main_theme_music;
 	Sound menu_sound_select;
+	Sound menu_sound_enter;
 
 
 	/* Init Functions*/

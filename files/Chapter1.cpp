@@ -24,7 +24,7 @@ void Chapter::loadFilesChap1() {
 
 	/* --- MUSIC & SOUNDS --- */
 	//music
-	this->game.resMgr.loadSoundBuffer("main_theme_chap1", "Assets/Sounds/2 chap1 ChineseTea.wav");
+	this->game.resMgr.loadSoundBuffer("main_theme_chap1", "Assets/Sounds/Musics/2_chapter1_ChineseTea.wav");
 	//bullets song
 	this->game.resMgr.loadSoundBuffer("bulletpiou", "Assets/Sounds/Bullets/piou.wav");
 	
