@@ -593,6 +593,7 @@ void Gameplay::pause_open_menu() {
 	this->pause = false;
 	this->music.setPlayingOffset(timeMusic);
 	this->music.setVolume(this->game.volumeMusic);
+	this->music.setVolume(this->game.volumeSFX);
 	this->music.play();
 	//if return to the main screen
 	if (!this->game.in_game) { this->chapterFinish = true; }

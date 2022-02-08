@@ -1,0 +1,5 @@
+src/Debug
+src/Release
+src/Test SFML Firendly.vcxproj
+src/Test SFML Firendly.vcxproj.filters
+Test SFML Firendly.vcxproj.user
