@@ -455,6 +455,7 @@ void Gameplay::key_pressed_mgr() {
 	while (this->game.window.pollEvent(this->game.event)) {
 		if (this->game.event.type == Event::Closed) {
 			this->chapterFinish = true;
+			this->music.stop();
 			this->game.window.close();
 		}
 
@@ -572,6 +573,7 @@ void Gameplay::game_update() {
 		
 	}
 	this->chapterFinish = true;
+	this->music.stop();
 	this->bullets.clear();
 	this->enemies.clear();
 	/* delete le background + le perso ?*/
@@ -596,7 +598,7 @@ void Gameplay::pause_open_menu() {
 	this->music.setVolume(this->game.volumeSFX);
 	this->music.play();
 	//if return to the main screen
-	if (!this->game.in_game) { this->chapterFinish = true; }
+	if (!this->game.in_game) { this->chapterFinish = true; this->music.stop();}
 }
 
 

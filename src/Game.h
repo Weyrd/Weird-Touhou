@@ -31,8 +31,8 @@ public:
 
 	int chapter = 1;
 	bool in_game = false;
-	float volumeMusic = 0;
-	float volumeSFX = 40;
+	float volumeMusic = 5;
+	float volumeSFX = 5;
 
 	Text info;
 

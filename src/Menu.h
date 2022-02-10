@@ -31,7 +31,10 @@ private:
 	Color outlineColor = Color(142, 142, 142, 175);
 	Game& game;
 	bool debug = false;
+	int pasMusic = 5;
 
+	/* Draw */
+	Text title;
 	Sprite background;
 
 	/* Music & Sounds */

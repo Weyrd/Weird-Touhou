@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Menu.h"
 
 
@@ -111,6 +111,17 @@ void Menu::Build_menu() {
 	int number_options = actual_menu.size();
 
 	int count = 0;
+	
+	title.setFont(this->game.resMgr.getRefFont("Touhoufont"));
+	title.setCharacterSize(100);
+	title.setFillColor(Color(0, 0, 0));
+	
+
+	if (!game.in_game) {
+		title.setString(L"東方私の筆と奇");	}
+	else if (quitMenu) {this->title.setString("Loading...");}
+	else{title.setString("Pause"); }
+	title.setPosition(Vector2f(this->game.window.getSize().x / 2 - (title.getGlobalBounds().width / 2), 0));
 
 	for (auto& element : this->actual_menu) {
 		Text newText;
@@ -249,21 +260,31 @@ void Menu::menu_update() {
 void Menu::draw_menu() {
 
 	this->game.window.clear();
-	this->game.window.draw(this->background);
+	if (!this->quitMenu) {
+		this->game.window.draw(this->background);
 
-	/* Text */
-	for (size_t i = 0; i < this->menu_list_draw.size(); i++) {
-		this->game.window.draw(menu_list_draw[i]);
-	}
+		/* title */
+		this->game.window.draw(this->title);
+
+		/* Text */
+		for (size_t i = 0; i < this->menu_list_draw.size(); i++) {
+			this->game.window.draw(menu_list_draw[i]);
+		}
 
 
-	if (id_menu == 3) { //options 
-		for (size_t i = 0; i < this->menu_values.size(); i++) {
-			this->game.window.draw(menu_values[i]);
+		if (id_menu == 3) { //options 
+			for (size_t i = 0; i < this->menu_values.size(); i++) {
+				this->game.window.draw(menu_values[i]);
+			}
+		}
+		if (this->debug) { // DEBUG
+
 		}
 	}
-	if (this->debug) { // DEBUG
-	
+	else {
+		this->game.window.draw(background);
+		/* title */
+		this->game.window.draw(this->title);
 	}
 
 
@@ -330,6 +351,7 @@ void Menu::menu_id1() { // Main Menu
 		//leave ty for playing
 		this->game.window.close();
 		quitMenu = true;
+		
 	}
 	this->id_select = 0;
 }
@@ -376,13 +398,13 @@ void Menu::menu_id3(int select) {
 		switch (id_select) {
 		case 0: // volume music
 			if (this->game.volumeMusic < 100) {
-				this->game.volumeMusic += 10; this->main_theme_music.setVolume(this->game.volumeMusic);
+				this->game.volumeMusic += this->pasMusic; this->main_theme_music.setVolume(this->game.volumeMusic);
 				this->menu_sound_select.play();}
 		
 			break;
 		case 1: // volume volumeSFX
 			if (this->game.volumeSFX < 100) {
-				this->game.volumeSFX += 10; this->menu_sound_select.setVolume(this->game.volumeSFX);
+				this->game.volumeSFX += this->pasMusic; this->menu_sound_select.setVolume(this->game.volumeSFX);
 				this->menu_sound_select.play();}
 			break;
 		default:
@@ -396,12 +418,12 @@ void Menu::menu_id3(int select) {
 		switch (id_select) {
 		case 0: // volume music
 			if (this->game.volumeMusic > 0) {
-				this->game.volumeMusic -= 10; this->main_theme_music.setVolume(this->game.volumeMusic);
+				this->game.volumeMusic -= this->pasMusic; this->main_theme_music.setVolume(this->game.volumeMusic);
 				this->menu_sound_select.play();}
 			break;
 		case 1: // volume volumeSFX
 			if (this->game.volumeSFX > 0) {
-				this->game.volumeSFX -= 10; this->menu_sound_select.setVolume(this->game.volumeSFX);
+				this->game.volumeSFX -= this->pasMusic; this->menu_sound_select.setVolume(this->game.volumeSFX);
 				this->menu_sound_select.play();}
 			break;
 		default:
