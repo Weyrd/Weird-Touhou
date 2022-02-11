@@ -28,6 +28,7 @@ public:
 	vector<Path> allPath;
 	vector<Weapon> weapons;
 	int timePatterBullets;
+	String name = "unknown";
 
 	Vector2f startEnemyPosition;
 

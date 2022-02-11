@@ -98,5 +98,5 @@ void Chapter::useRessourcesChap1() {
 	this->gameplay.bulletMgr["special_chuni"] = weapon_special_chuni;
 
 
-	this->gameplay.create_bullets(cirno.weapons[0]);
+	//this->gameplay.create_bullets_player(cirno.weapons[0]);
 }

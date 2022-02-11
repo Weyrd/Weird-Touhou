@@ -102,8 +102,8 @@ void Weapon::create_special_chuni(RessourceManager* resMgr, float reloadTime) {
 	/* End Config*/
 
 
-	Bullet bullet_chuni_red_1(1, this->createSprite("bullet_chuni_red", Vector2f(0.5, 0.5)), damage, Vector2f(0.f, -50.f), Vector2f(1, 0), 20.f, false);
-	Bullet bullet_chuni_red_2(1, this->createSprite("bullet_chuni_red", Vector2f(0.5, 0.5)), damage, Vector2f(0.f, 50.f), Vector2f(1, 0), 20.f, false);
+	Bullet bullet_chuni_red_1(1, this->createSprite("bullet_chuni_red", Vector2f(0.5, 0.5)), damage, Vector2f(0.f, -50.f), Vector2f(1, 0), 5.f, false);
+	Bullet bullet_chuni_red_2(1, this->createSprite("bullet_chuni_red", Vector2f(0.5, 0.5)), damage, Vector2f(0.f, 50.f), Vector2f(1, 0), 5.f, false);
 
 	this->bullets.insert(this->bullets.end(), { bullet_chuni_red_1, bullet_chuni_red_2});
 

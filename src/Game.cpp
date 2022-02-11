@@ -33,6 +33,7 @@ void Game::fps_update(int numberBullets, int numberEnnemies) {
 
 void Game::_run() {
 	this->loadFonts();
+	bool diabledmenu = true;
 
 	Gameplay loadGameplay((*this));
 	Menu loadMenu((*this));
@@ -42,7 +43,7 @@ void Game::_run() {
 
 	while (this->window.isOpen())
 	{
-		if (!this->in_game) { loadMenu.main_menu_run(); }
+		if (!this->in_game && !diabledmenu) { loadMenu.main_menu_run(); }
 		else { loadGameplay.chapter_run(); }
 		
 		this->window.clear();

@@ -50,6 +50,7 @@ private:
 	void move_enemies();
 	void move_player();
 	void move_bullets();
+	void enemy_patterns();
 	void check_collision();
 	
 
@@ -78,7 +79,8 @@ public:
 	
 
 	//Gameplay(RenderWindow& windowPointer, Clock& clock);
-	void create_bullets(Weapon weapon, bool fromPlayer = true, bool autoAim = false);
+	void create_bullets_player(Weapon weapon, bool autoAim = false);
+	void create_bullets_ennemy(Weapon weapon, Vector2f enemy, bool autoAim = false);
 	Gameplay(Game&game);
 	void chapter_run();
 	void game_update();

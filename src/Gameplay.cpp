@@ -276,7 +276,7 @@ Vector2f Gameplay::getClosestEnemy(Bullet bulletAim) {
 
 
 /* --- BULLETS --- */
-/* Pas opti 2 bonsoir ? */
+/* Pas opti 2 bonsoir ? */ 
 void Gameplay::check_collision() {
 	for (int b = 0; b < this->bullets.size(); b++) { // for bullets
 		for (int i = 0; i < this->enemies.size(); i++) { // for Enemies
@@ -292,47 +292,74 @@ void Gameplay::check_collision() {
 								int xMaxHitbox = xHitbox + this->enemies[i].enemies[j].sizeSprite.x;
 								int yMaxHitbox = yHitbox + this->enemies[i].enemies[j].sizeSprite.y;
 
+								int xPlayerHitbox = this->player.hitbox.getPosition().x;
+								int yPlayerHitbox = this->player.hitbox.getPosition().y;
+								int xPlayeMaxHitbox = xPlayerHitbox + this->player.sizeSprite.x;
+								int yPlayeMaxHitbox = yPlayerHitbox + this->player.sizeSprite.y;
+
 								int xBullet = this->bullets[b].shape.getPosition().x;
 								int yBullet = this->bullets[b].shape.getPosition().y;
 								int xMaxBullet = xBullet + this->bullets[b].sizeSprite.x;
 								int yMaxBullet = yBullet + this->bullets[b].sizeSprite.y;
 
 								//if from player touch player ?
-								if (
-									(xMaxBullet > xHitbox && xMaxBullet < xMaxHitbox && yBullet > yHitbox && yBullet < yMaxHitbox) ||
+								if (this->bullets[b].fromPlayer) {
+									if (
+										// (player to ennemies) || (ennemies to player) ||
+										(xMaxBullet > xHitbox && xMaxBullet < xMaxHitbox && yBullet > yHitbox && yBullet < yMaxHitbox) || 
 
-									(xMaxBullet > xHitbox && xMaxBullet < xMaxHitbox && yMaxBullet > yHitbox && yMaxBullet < yMaxHitbox) ||
+										(xMaxBullet > xHitbox && xMaxBullet < xMaxHitbox && yMaxBullet > yHitbox && yMaxBullet < yMaxHitbox) || 
 
-									(xBullet < xMaxHitbox && xBullet > xHitbox && yBullet > yHitbox && yMaxBullet < yMaxHitbox) ||
+										(xBullet < xMaxHitbox && xBullet > xHitbox && yBullet > yHitbox && yMaxBullet < yMaxHitbox) || 
 
-									(xBullet < xMaxHitbox && xBullet > xHitbox && yMaxBullet > yHitbox && yMaxBullet < yMaxHitbox)
-									) {
+										(xBullet < xMaxHitbox && xBullet > xHitbox && yMaxBullet > yHitbox && yMaxBullet < yMaxHitbox)
+										) {
 
-									this->enemies[i].enemies[j].life -= this->bullets[b].damage;
-									cout << "------------------- "
-										<< this->enemies[i].enemies[j].life << "[" << this->bullets[b].damage << "] -------------------" << endl;
+										this->enemies[i].enemies[j].life -= this->bullets[b].damage;
+										cout << "------------------- "
+											<< this->enemies[i].enemies[j].life << "[" << this->bullets[b].damage << "] -------------------" << endl;
 
 
+										// debug  colission shape
+										RectangleShape t1 = RectangleShape(Vector2f((xMaxBullet - xBullet), (yMaxBullet - yBullet)));
+										t1.setPosition(xBullet, yBullet);
+										t1.setFillColor(Color::Red);
 
-									RectangleShape t1 = RectangleShape(Vector2f((xMaxBullet - xBullet), (yMaxBullet - yBullet)));
-									t1.setPosition(xBullet, yBullet);
-									t1.setFillColor(Color::Red);
+										this->colisions.push_back(t1);
+										if (this->colisions.size() > 15) {
+											this->colisions.erase(this->colisions.begin());
 
-									this->colisions.push_back(t1);
-									if (this->colisions.size() > 15) {
-										this->colisions.erase(this->colisions.begin());
-
-									}
-
-									if (this->enemies[i].enemies[j].life <= 0) {
-										this->enemies[i].enemies.erase(this->enemies[i].enemies.begin() + j); /////////// + i ?
-										if (this->enemies[i].enemies.size() == 0) {
-											jmax = j;
-											this->enemies.erase(this->enemies.begin() + i);////////////////// + i ???
 										}
-									}
 
-									this->bullets.erase(this->bullets.begin() + b);
+										if (this->enemies[i].enemies[j].life <= 0) {
+											this->enemies[i].enemies.erase(this->enemies[i].enemies.begin() + j); /////////// + i ?
+											if (this->enemies[i].enemies.size() == 0) {
+												jmax = j;
+												this->enemies.erase(this->enemies.begin() + i);////////////////// + i ???
+											}
+										}
+
+										this->bullets.erase(this->bullets.begin() + b);
+									}
+									
+									
+								}
+								//from ennemies to player
+								else if (!this->bullets[b].fromPlayer) {
+									if (
+										(xMaxBullet > xPlayerHitbox && xMaxBullet < xPlayeMaxHitbox && yBullet > yPlayerHitbox && yBullet < yPlayeMaxHitbox) ||
+										(xMaxBullet > xPlayerHitbox && xMaxBullet < xPlayeMaxHitbox && yMaxBullet > yPlayerHitbox && yMaxBullet < yPlayeMaxHitbox) ||
+										(xBullet < xPlayeMaxHitbox && xBullet > xPlayerHitbox && yBullet > yPlayerHitbox && yMaxBullet < yPlayeMaxHitbox) ||
+										(xBullet < xPlayeMaxHitbox && xBullet > xPlayerHitbox && yMaxBullet > yPlayerHitbox && yMaxBullet < yPlayeMaxHitbox)
+										) {
+
+											this->player.life -= this->bullets[b].damage;
+											cout << "------------------- "
+											     << player.life << "[" << this->bullets[b].damage << "] ------------------- PLAYER" << endl;
+											this->bullets.erase(this->bullets.begin() + b);
+
+										  }
+
 								}
 							}
 
@@ -350,6 +377,15 @@ void Gameplay::move_bullets() {
 	for (size_t i = 0; i < this->bullets.size(); i++) {
 		Bullet  currentBullet = this->bullets[i];
 		//cout << "-- New bullet --" << endl;
+		if (currentBullet.shape.getPosition().x < 0 || currentBullet.shape.getPosition().x > this->game.window.getSize().x
+			|| currentBullet.shape.getPosition().y < 0 || currentBullet.shape.getPosition().y > this->game.window.getSize().y)
+		{
+			this->bullets.erase(this->bullets.begin() + i);
+
+		}
+		else {
+
+		
 			float x = currentBullet.shape.getPosition().x + currentBullet.sizeSprite.x / 2;
 			float y = currentBullet.shape.getPosition().y + currentBullet.sizeSprite.y / 2;
 			Vector2f bulletCenter = Vector2f(x, y);
@@ -374,14 +410,10 @@ void Gameplay::move_bullets() {
 
 			this->bullets[i].shape.move(this->bullets[i].direction);
 			
-
-
-		if (currentBullet.shape.getPosition().x < 0 || currentBullet.shape.getPosition().x > this->game.window.getSize().x
-			|| currentBullet.shape.getPosition().y < 0 || currentBullet.shape.getPosition().y > this->game.window.getSize().y)
-		{
-			this->bullets.erase(this->bullets.begin() + i);
-
 		}
+
+
+		
 
 	}
 	//cout << "--------- END FRAME -----------" <<endl;
@@ -389,25 +421,91 @@ void Gameplay::move_bullets() {
 
 }
 
-void Gameplay::create_bullets(Weapon weapon, bool fromPlayer, bool autoAim) {
+void Gameplay::enemy_patterns() {
+		for (size_t i = 0; i < this->enemies.size(); i++) {
+			for (size_t k = 0; k < this->enemies[i].enemies.size(); k++) {
+				for (size_t j = 0; j < this->enemies[i].weapons.size(); j++) {
+					float posX = (float)this->enemies[i].enemies[k].center.x -this->enemies[i].weapons[j].bullets[0].sizeSprite.x / 2;
+					float posY = (float)this->enemies[i].enemies[k].center.y -this->enemies[i].weapons[j].bullets[0].sizeSprite.y / 2;
+					Vector2f posBullet = Vector2f(posX, posY);
 
-	if (weapon.get_reload() < 0) {
+					
+
+					create_bullets_ennemy(this->enemies[i].weapons[i], posBullet);
+				}
+			}
+		}
+
+
+}
+
+void Gameplay::create_bullets_ennemy(Weapon weapon, Vector2f enemyCenter, bool autoAim) {
+
+	if (weapon.get_reload() < 0) {////////////////////////////////////////////////////////////////
 
 		for (size_t i = 0; i < weapon.bullets.size(); i++) {
 			Bullet bullet_ = weapon.bullets[i];
 
-			Vector2f bulletCenter = Vector2f( //center in front of players, sprite
-				player.center.x + player.sizeSprite.x / 2 + bullet_.startPosDiff.x,
-				player.center.y - bullet_.sizeSprite.y / 2 + bullet_.startPosDiff.y
+			Vector2f targetDir, bulletCenter;
+
+			bullet_.fromPlayer = false;
+			bulletCenter = Vector2f( //center in front of players, sprite
+				enemyCenter.x  + bullet_.startPosDiff.x,
+				enemyCenter.y  + bullet_.startPosDiff.y
 			);
-
 			bullet_.shape.setPosition(bulletCenter);
-			Vector2f targetDir;
 
-			// Bullet from player
-			if (bullet_.fromPlayer) {
-				this->bulletSoundMgr[bullet_.id].play(); //////// piouuuuuuuuuuuuuuuuuuuuuuuuuuuu
+			// debug  colission shape
+			RectangleShape t1 = RectangleShape(Vector2f(10, 10));
+			t1.setPosition(bulletCenter);
+			t1.setFillColor(Color::Red);
+
+			this->colisions.push_back(t1);
+			if (this->colisions.size() > 2) {
+				this->colisions.erase(this->colisions.begin());
+
+			}
+
+			// Bullet with autoAim |  calcul from bullet to player
+			if (bullet_.autoAim) {
+				bullet_.autoAim = true;
+				targetDir = getAutoAim(bullet_, this->player.center);
+			}
+
+			//Bullet without autoAim
+			else { targetDir = -bullet_.direction; }
+
+
+			bullet_.direction = targetDir * bullet_.speed;
+	
+
+			this->bullets.push_back(Bullet(bullet_));
+
+
+
+			weapon.restart_reload();
+		}
+
+	}
+}
+
+
+void Gameplay::create_bullets_player(Weapon weapon, bool autoAim) {
+
+	if (weapon.get_reload() < 0) {////////////////////////////////////////////////////////////////
+
+		for (size_t i = 0; i < weapon.bullets.size(); i++) {
+			Bullet bullet_ = weapon.bullets[i];
+
 			
+			Vector2f targetDir, bulletCenter;
+
+				this->bulletSoundMgr[bullet_.id].play(); //////// piouuuuuuuuuuuuuuuuuuuuuuuuuuuu
+				bulletCenter = Vector2f( //center in front of players, sprite
+					player.center.x + player.sizeSprite.x / 2 + bullet_.startPosDiff.x,
+					player.center.y - bullet_.sizeSprite.y / 2 + bullet_.startPosDiff.y
+				);
+				bullet_.shape.setPosition(bulletCenter);
 
 				// Bullet with autoAim | calcul from player to closest enemy
 				if (bullet_.autoAim) {
@@ -420,23 +518,8 @@ void Gameplay::create_bullets(Weapon weapon, bool fromPlayer, bool autoAim) {
 				else {
 					targetDir = bullet_.direction;
 				}
-			}
-
-			//Bullet from bot
-			else {
-				bullet_.fromPlayer = false;
-				// Bullet with autoAim |  calcul from bullet to player
-				if (bullet_.autoAim) {
-					bullet_.autoAim = true;
-					targetDir = getAutoAim(bullet_, this->player.center);
-				}
-
-				//Bullet without autoAim
-				else {
-					targetDir = bullet_.direction;
-				}
-			}
-
+			
+			
 			bullet_.direction = targetDir * bullet_.speed;
 			
 			this->bullets.push_back(Bullet(bullet_)); 
@@ -487,29 +570,29 @@ void Gameplay::create_bullet_mgr() {
 	/*
 	if (Mouse::isButtonPressed(Mouse::)) {
 		Weapon weapon = this->bulletMgr["bullet_ball_glass_blue"];
-		create_bullets(weapon, true, true);
+		create_bullets_player(weapon, true);
 	}*/
 
 	if (Keyboard::isKeyPressed(Keyboard::W)) {
 		Weapon weapon = this->bulletMgr["bullet_ball_glass_blue"];
-		create_bullets(weapon);
+		create_bullets_player(weapon);
 		//Weapon weapon2 = this->bulletMgr["bullet_ball_glass_red"];
 		//create_bullets(weapon2);
 	}
 
 	if (Keyboard::isKeyPressed(Keyboard::Q)) {
 		Weapon weapon = this->bulletMgr["bullet_ball_glass_red"];
-		create_bullets(weapon);
+		create_bullets_player(weapon);
 	}
 
 	if (Keyboard::isKeyPressed(Keyboard::X)) {
 		Weapon weapon = this->bulletMgr["bullet_chuni_red"];
-		create_bullets(weapon);
+		create_bullets_player(weapon);
 	}
 
 	if (Keyboard::isKeyPressed(Keyboard::C)) {
 		Weapon weapon = this->bulletMgr["special_chuni"];
-		create_bullets(weapon);
+		create_bullets_player(weapon);
 	}
 }
 
@@ -552,6 +635,7 @@ void Gameplay::game_update() {
 			this->enemiesHitbox.clear();
 
 			this->move_enemies();
+			this->enemy_patterns();
 		
 			this->move_player();
 
