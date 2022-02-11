@@ -19,6 +19,7 @@ void Chapter::loadFilesChap1() {
 
 	/* --- BULLETS --- */
 	this->game.resMgr.loadTexture("bullet_chuni_red", "Assets/Sprites/Bullets/bullet_chuni_red.png");
+	this->game.resMgr.loadTexture("bullet_chuni_red_reverse", "Assets/Sprites/Bullets/bullet_chuni_red_reverse.png");
 	this->game.resMgr.loadTexture("bullet_ball_glass_blue", "Assets/Sprites/Bullets/bullet_ball_glass_blue.png");
 	this->game.resMgr.loadTexture("bullet_ball_glass_red", "Assets/Sprites/Bullets/bullet_ball_glass_red.png");
 
@@ -78,25 +79,25 @@ void Chapter::useRessourcesChap1() {
 
 	/*  --- WEAPONS --- */
 	//chuni red
-	Weapon weapon_bullet_chuni_red;
-	weapon_bullet_chuni_red.create_bullet_chuni_red(&this->game.resMgr);
-	this->gameplay.bulletMgr["bullet_chuni_red"] = weapon_bullet_chuni_red;
+	Pattern pattern_bullet_chuni_red;
+	pattern_bullet_chuni_red.create_bullet_chuni_red(&this->game.resMgr);
+	this->gameplay.bulletMgr["bullet_chuni_red"] = pattern_bullet_chuni_red;
 
 	//ball_glass_blue
-	Weapon weapon_ball_glass_blue;
-	weapon_ball_glass_blue.create_ball_glass_blue(&this->game.resMgr);
-	this->gameplay.bulletMgr["bullet_ball_glass_blue"] = weapon_ball_glass_blue;
+	Pattern pattern_ball_glass_blue;
+	pattern_ball_glass_blue.create_ball_glass_blue(&this->game.resMgr);
+	this->gameplay.bulletMgr["bullet_ball_glass_blue"] = pattern_ball_glass_blue;
 
 	//ball_glass_red
-	Weapon weapon_ball_glass_red;
-	weapon_ball_glass_red.create_ball_glass_red(&this->game.resMgr);
-	this->gameplay.bulletMgr["bullet_ball_glass_red"] = weapon_ball_glass_red;
+	Pattern pattern_ball_glass_red;
+	pattern_ball_glass_red.create_ball_glass_red(&this->game.resMgr);
+	this->gameplay.bulletMgr["bullet_ball_glass_red"] = pattern_ball_glass_red;
 
 	//test_special
-	Weapon weapon_special_chuni;
-	weapon_special_chuni.create_special_chuni(&this->game.resMgr);
-	this->gameplay.bulletMgr["special_chuni"] = weapon_special_chuni;
+	Pattern pattern_special_chuni;
+	pattern_special_chuni.create_special_chuni(&this->game.resMgr);
+	this->gameplay.bulletMgr["special_chuni"] = pattern_special_chuni;
 
 
-	//this->gameplay.create_bullets_player(cirno.weapons[0]);
+	//this->gameplay.create_bullets_player(cirno.patterns[0]);
 }

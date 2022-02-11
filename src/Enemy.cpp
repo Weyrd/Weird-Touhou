@@ -65,10 +65,10 @@ void Enemy::cirno(RessourceManager* resMgr) {
 
 	/*  --- BULLETS --- */
 	this->timePatterBullets = 10000;
-	Weapon bullet_chuni_red_1;
+	Pattern bullet_chuni_red_1;
 	bullet_chuni_red_1.create_special_chuni(this->resMgr, 750);
 
-	this->weapons.insert(this->weapons.end(), { bullet_chuni_red_1 });
+	this->enemies[0].patterns.insert(this->enemies[0].patterns.end(), { bullet_chuni_red_1 });
 
 }
 

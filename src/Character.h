@@ -1,5 +1,6 @@
 #pragma once
 #include "Header.h"
+#include "Pattern.h"
 
 using namespace sf;
 using namespace std;
@@ -15,6 +16,8 @@ public:
 	Vector2f sizeSprite;
 	Sprite shape;
 	Vector2f center;
+
+	vector<Pattern> patterns;
 
 	float life;
 	float power = 1;

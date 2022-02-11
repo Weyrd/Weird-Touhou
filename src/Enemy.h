@@ -4,7 +4,7 @@
 #include "RessourceManager.h"
 #include "Bezier.h"
 #include "Path.h"
-#include "Weapon.h"
+#include "Pattern.h"
 
 class Character;
 
@@ -26,7 +26,8 @@ public:
 
 	int currentPath = 0; 
 	vector<Path> allPath;
-	vector<Weapon> weapons;
+	
+
 	int timePatterBullets;
 	String name = "unknown";
 

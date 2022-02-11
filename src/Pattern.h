@@ -11,7 +11,7 @@ using namespace std;
 
 
 
-class Weapon
+class Pattern
 {
 private:
 	Time reload;
@@ -25,9 +25,9 @@ public:
 	vector<Bullet> bullets;	
 	
 
-	Weapon(vector<Bullet> bullet, Time time);
-	Weapon(Bullet bullet, Time time);
-	Weapon():clock(new Clock) {};
+	Pattern(vector<Bullet> bullet, Time time);
+	Pattern(Bullet bullet, Time time);
+	Pattern():clock(new Clock) {};
 
 	int get_reload();
 	void restart_reload();

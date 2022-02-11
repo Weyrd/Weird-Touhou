@@ -1,8 +1,8 @@
 #pragma once
-#include "Weapon.h"
+#include "Pattern.h"
 #include "Bullet.h"
 
-Weapon::Weapon(Bullet bulletW, Time time)
+Pattern::Pattern(Bullet bulletW, Time time)
 	:clock(new Clock) {
 
 	this->reload = time;
@@ -11,7 +11,7 @@ Weapon::Weapon(Bullet bulletW, Time time)
 
 }
 
-Weapon::Weapon(vector<Bullet> bulletW, Time time)
+Pattern::Pattern(vector<Bullet> bulletW, Time time)
 	:clock(new Clock) {
 
 	this->reload = time;
@@ -20,17 +20,17 @@ Weapon::Weapon(vector<Bullet> bulletW, Time time)
 
 }
 
-int Weapon::get_reload() {
+int Pattern::get_reload() {
 	return (this->reload - this->clock->getElapsedTime()).asMilliseconds();
 }
 
 
-void Weapon::restart_reload() {
+void Pattern::restart_reload() {
 	this->clock->restart();
 }
 
 
-Sprite Weapon::createSprite(string textureName, Vector2f size) {
+Sprite Pattern::createSprite(string textureName, Vector2f size) {
 
 	sf::Sprite sprite;
 	sprite.setTexture(this->resMgr->getRefTex(textureName));
@@ -42,7 +42,7 @@ Sprite Weapon::createSprite(string textureName, Vector2f size) {
 //Bullets(int id, Sprite bulletSprite, Vector2f dir, float BulletmaxSpeed bool autoAim = false, bool fromPlayer = true);
 
 
-void Weapon::create_bullet_chuni_red(RessourceManager* resMgr, float reloadTime) {
+void Pattern::create_bullet_chuni_red(RessourceManager* resMgr, float reloadTime) {
 	this->resMgr = resMgr;
 
 	/* --- CONFIG --- */
@@ -58,7 +58,7 @@ void Weapon::create_bullet_chuni_red(RessourceManager* resMgr, float reloadTime)
 }
 
 
-void Weapon::create_ball_glass_blue(RessourceManager* resMgr, float reloadTime) {
+void Pattern::create_ball_glass_blue(RessourceManager* resMgr, float reloadTime) {
 	this->resMgr = resMgr;
 
 	/* --- CONFIG --- */
@@ -74,7 +74,7 @@ void Weapon::create_ball_glass_blue(RessourceManager* resMgr, float reloadTime) 
 
 }
 
-void Weapon::create_ball_glass_red(RessourceManager* resMgr, float reloadTime) {
+void Pattern::create_ball_glass_red(RessourceManager* resMgr, float reloadTime) {
 	this->resMgr = resMgr;
 
 	/* --- CONFIG --- */
@@ -92,7 +92,7 @@ void Weapon::create_ball_glass_red(RessourceManager* resMgr, float reloadTime) {
 
 }
 
-void Weapon::create_special_chuni(RessourceManager* resMgr, float reloadTime) {
+void Pattern::create_special_chuni(RessourceManager* resMgr, float reloadTime) {
 	this->resMgr = resMgr;
 
 	/* --- CONFIG --- */

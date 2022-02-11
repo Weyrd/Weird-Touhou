@@ -1,6 +1,6 @@
 #pragma once
 #include "Gameplay.h"
-#include "Weapon.h"
+#include "Pattern.h"
 #include "Enemy.h"
 #include "Bezier.h"
 #include "Chapter.h"
@@ -424,14 +424,14 @@ void Gameplay::move_bullets() {
 void Gameplay::enemy_patterns() {
 		for (size_t i = 0; i < this->enemies.size(); i++) {
 			for (size_t k = 0; k < this->enemies[i].enemies.size(); k++) {
-				for (size_t j = 0; j < this->enemies[i].weapons.size(); j++) {
-					float posX = (float)this->enemies[i].enemies[k].center.x -this->enemies[i].weapons[j].bullets[0].sizeSprite.x / 2;
-					float posY = (float)this->enemies[i].enemies[k].center.y -this->enemies[i].weapons[j].bullets[0].sizeSprite.y / 2;
+				for (size_t j = 0; j < this->enemies[i].enemies[k].patterns.size(); j++) {
+					float posX = (float)this->enemies[i].enemies[k].center.x -this->enemies[i].enemies[k].patterns[j].bullets[0].sizeSprite.x / 2;
+					float posY = (float)this->enemies[i].enemies[k].center.y -this->enemies[i].enemies[k].patterns[j].bullets[0].sizeSprite.y / 2;
 					Vector2f posBullet = Vector2f(posX, posY);
 
 					
 
-					create_bullets_ennemy(this->enemies[i].weapons[i], posBullet);
+					create_bullets_ennemy(this->enemies[i].enemies[k].patterns[i], posBullet);
 				}
 			}
 		}
@@ -439,12 +439,12 @@ void Gameplay::enemy_patterns() {
 
 }
 
-void Gameplay::create_bullets_ennemy(Weapon weapon, Vector2f enemyCenter, bool autoAim) {
+void Gameplay::create_bullets_ennemy(Pattern pattern, Vector2f enemyCenter, bool autoAim) {
 
-	if (weapon.get_reload() < 0) {////////////////////////////////////////////////////////////////
+	if (pattern.get_reload() < 0) {////////////////////////////////////////////////////////////////
 
-		for (size_t i = 0; i < weapon.bullets.size(); i++) {
-			Bullet bullet_ = weapon.bullets[i];
+		for (size_t i = 0; i < pattern.bullets.size(); i++) {
+			Bullet bullet_ = pattern.bullets[i];
 
 			Vector2f targetDir, bulletCenter;
 
@@ -483,19 +483,19 @@ void Gameplay::create_bullets_ennemy(Weapon weapon, Vector2f enemyCenter, bool a
 
 
 
-			weapon.restart_reload();
+			pattern.restart_reload();
 		}
 
 	}
 }
 
 
-void Gameplay::create_bullets_player(Weapon weapon, bool autoAim) {
+void Gameplay::create_bullets_player(Pattern pattern, bool autoAim) {
 
-	if (weapon.get_reload() < 0) {////////////////////////////////////////////////////////////////
+	if (pattern.get_reload() < 0) {////////////////////////////////////////////////////////////////
 
-		for (size_t i = 0; i < weapon.bullets.size(); i++) {
-			Bullet bullet_ = weapon.bullets[i];
+		for (size_t i = 0; i < pattern.bullets.size(); i++) {
+			Bullet bullet_ = pattern.bullets[i];
 
 			
 			Vector2f targetDir, bulletCenter;
@@ -526,7 +526,7 @@ void Gameplay::create_bullets_player(Weapon weapon, bool autoAim) {
 		}
 
 
-		weapon.restart_reload();
+		pattern.restart_reload();
 	}
 
 }
@@ -569,30 +569,30 @@ void Gameplay::key_pressed_mgr() {
 void Gameplay::create_bullet_mgr() {
 	/*
 	if (Mouse::isButtonPressed(Mouse::)) {
-		Weapon weapon = this->bulletMgr["bullet_ball_glass_blue"];
-		create_bullets_player(weapon, true);
+		Pattern pattern = this->bulletMgr["bullet_ball_glass_blue"];
+		create_bullets_player(pattern, true);
 	}*/
 
 	if (Keyboard::isKeyPressed(Keyboard::W)) {
-		Weapon weapon = this->bulletMgr["bullet_ball_glass_blue"];
-		create_bullets_player(weapon);
-		//Weapon weapon2 = this->bulletMgr["bullet_ball_glass_red"];
-		//create_bullets(weapon2);
+		Pattern pattern = this->bulletMgr["bullet_ball_glass_blue"];
+		create_bullets_player(pattern);
+		//Pattern pattern2 = this->bulletMgr["bullet_ball_glass_red"];
+		//create_bullets(pattern2);
 	}
 
 	if (Keyboard::isKeyPressed(Keyboard::Q)) {
-		Weapon weapon = this->bulletMgr["bullet_ball_glass_red"];
-		create_bullets_player(weapon);
+		Pattern pattern = this->bulletMgr["bullet_ball_glass_red"];
+		create_bullets_player(pattern);
 	}
 
 	if (Keyboard::isKeyPressed(Keyboard::X)) {
-		Weapon weapon = this->bulletMgr["bullet_chuni_red"];
-		create_bullets_player(weapon);
+		Pattern pattern = this->bulletMgr["bullet_chuni_red"];
+		create_bullets_player(pattern);
 	}
 
 	if (Keyboard::isKeyPressed(Keyboard::C)) {
-		Weapon weapon = this->bulletMgr["special_chuni"];
-		create_bullets_player(weapon);
+		Pattern pattern = this->bulletMgr["special_chuni"];
+		create_bullets_player(pattern);
 	}
 }
 
@@ -679,7 +679,7 @@ void Gameplay::pause_open_menu() {
 	this->pause = false;
 	this->music.setPlayingOffset(timeMusic);
 	this->music.setVolume(this->game.volumeMusic);
-	this->music.setVolume(this->game.volumeSFX);
+	this->volumeSFX.setVolume(this->game.volumeSFX);
 	this->music.play();
 	//if return to the main screen
 	if (!this->game.in_game) { this->chapterFinish = true; this->music.stop();}

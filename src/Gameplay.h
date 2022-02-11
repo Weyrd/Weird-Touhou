@@ -3,7 +3,7 @@
 #include "RessourceManager.h"
 #include "Bullet.h"
 #include "Character.h"
-#include "Weapon.h"
+#include "Pattern.h"
 #include "Game.h"
 #include "Enemy.h"
 #include "Chapter.h"
@@ -64,7 +64,7 @@ private:
 
 public:
 	map<int, Sound> bulletSoundMgr;
-	map<string, Weapon> bulletMgr;
+	map<string, Pattern> bulletMgr;
 	Character player;
 	vector<Enemy> enemies;
 	vector<Bullet> bullets;
@@ -79,8 +79,8 @@ public:
 	
 
 	//Gameplay(RenderWindow& windowPointer, Clock& clock);
-	void create_bullets_player(Weapon weapon, bool autoAim = false);
-	void create_bullets_ennemy(Weapon weapon, Vector2f enemy, bool autoAim = false);
+	void create_bullets_player(Pattern weapon, bool autoAim = false);
+	void create_bullets_ennemy(Pattern weapon, Vector2f enemy, bool autoAim = false);
 	Gameplay(Game&game);
 	void chapter_run();
 	void game_update();
