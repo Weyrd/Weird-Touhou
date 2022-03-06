@@ -16,6 +16,7 @@ public:
 	Vector2f startPosDiff;
 	Vector2f bulletCenter;
 
+
 	bool fromPlayer;
 	bool autoAim;
 
@@ -31,4 +32,10 @@ public:
 	Bullet(int id, float damageBullet, Vector2f dir = Vector2f(1.f, 0.f), float BulletSpeed = 15.f,
 		bool autoAim = false, bool fromPlayer = true);
 
+	void move_straightForward(Vector2f playerCenter, vector<Vector2f*> enemiesCenter);
+	void move(Vector2f playerCenter, vector<Vector2f*> enemiesCenter);
+	void circle_pattern();
+
+	Vector2f getAutoAim(Vector2f targetPos);
+	Vector2f getClosestEnemy(vector<Vector2f*> enemiesCenter);
 };

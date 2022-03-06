@@ -31,6 +31,8 @@ private:
 	float score = 0;
 
 	Game& game;
+	Clock gameplayClock;
+	Time frameTime;
 
 	int weaponLevel = 0;
 	Text displayLife;
@@ -41,8 +43,6 @@ private:
 	void loadSprite();
 	
 
-	Vector2f getClosestEnemy(Bullet bulletAim);
-	Vector2f getAutoAim(Bullet bulletAim, Vector2f targetPos);
 
 	void key_pressed_mgr();
 	void create_bullet_mgr();

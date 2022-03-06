@@ -1,6 +1,7 @@
 #pragma once
 #include "Header.h"
 #include "Pattern.h"
+#include "AnimatedSprite.h"
 
 using namespace sf;
 using namespace std;
@@ -19,6 +20,11 @@ public:
 
 	vector<Pattern> patterns;
 
+	AnimatedSprite* animatedSprite;
+	Animation currentAnimation;
+	map<string, Animation> allAnimations;
+
+
 	float life;
 	float power = 1;
 
@@ -35,8 +41,9 @@ public:
 	Color color;
 
 	
-
 	Character(Sprite sprite, Vector2f startPosition = Vector2f(0.f, 0.f), float Speed = 10.f, float life = 100.f, float offset = 0.f);
+
+	Character(AnimatedSprite* animatedSprite, map<string, Animation> allAnimations, Vector2f startPosition = Vector2f(0.f, 0.f), float Speed = 10.f, float life = 100.f, float offset = 0.f);
 	Character(float Speed = 10.f) ;
 	~Character() { /*cout << "Delete Char life -> " << life << endl;*/ }
 

@@ -5,14 +5,7 @@
 #include "Bezier.h"
 #include "Chapter.h"
 
-typedef std::pair<float, Vector2f*> MyPairType;
-struct CompareFirst
-{
-	bool operator()(const MyPairType& left, const MyPairType& right) const
-	{
-		return left.first < right.first;
-	}
-};
+
 
 Gameplay::Gameplay(Game& game)
 	: game(game){
@@ -23,6 +16,9 @@ Gameplay::Gameplay(Game& game)
 
 /* --- INIT --- */
 void Gameplay::loadSprite() {
+	Clock frameClock;
+	this->gameplayClock = frameClock;
+
 	Chapter load_chapter(this->game, (*this));
 	load_chapter.loadfilesChap(this->game.chapter);
 
@@ -35,43 +31,59 @@ void Gameplay::loadSprite() {
 
 /* --- MOVES --- */
 void Gameplay::move_player() {
+	
+	this->player.center = Vector2f(this->player.animatedSprite->getPosition().x + this->player.sizeSprite.x / 2,
+		player.animatedSprite->getPosition().y + this->player.sizeSprite.y / 2);
 
-	this->player.center = Vector2f(this->player.shape.getPosition().x + this->player.sizeSprite.x / 2,
-		this->player.shape.getPosition().y + this->player.sizeSprite.y / 2);
-
-
+	Vector2f movement(0.f, 0.f);
+	
+	bool noKeyWasPressed = true;
 	if (Keyboard::isKeyPressed(Keyboard::Left)) {
-		if (player.shape.getPosition().x > (float)(3 * this->game.window.getSize().x / 100)) { // 3ù% de l'écran
-			player.shape.move(-player.Speed, 0.f);
-			player.hitbox.move(-player.Speed, 0.f);
+		if (player.animatedSprite->getPosition().x > (float)(3 * this->game.window.getSize().x / 100)) { // 3ù% de l'écran
+			movement = Vector2f (-player.Speed, 0.f);
+			player.currentAnimation = player.allAnimations["afk"];
+			noKeyWasPressed = false;
 		}
 	}
 	if (Keyboard::isKeyPressed(Keyboard::Right)) {
-		if (player.shape.getPosition().x + player.sizeSprite.x < (float)(97.5 * this->game.window.getSize().x / 100)) {
-			player.shape.move(player.Speed, 0.f);
-			player.hitbox.move(player.Speed, 0.f);
+		if (player.animatedSprite->getPosition().x + player.sizeSprite.x < (float)(97.5 * this->game.window.getSize().x / 100)) {
+			movement = Vector2f (player.Speed, 0.f);
+			player.currentAnimation = player.allAnimations["afk"];
+			noKeyWasPressed = false;
 		}
 	}
 	if (Keyboard::isKeyPressed(Keyboard::Up)) {
-		if (player.shape.getPosition().y > (float)(4. * this->game.window.getSize().y / 100)) {
-			player.shape.move(0.f, -player.Speed);
-			player.hitbox.move(0.f, -player.Speed);
+		if (player.animatedSprite->getPosition().y > (float)(4. * this->game.window.getSize().y / 100)) {
+			movement = Vector2f (0.f, -player.Speed);
+			player.currentAnimation = player.allAnimations["up"];
+			noKeyWasPressed = false;
 		}
 	}
 	if (Keyboard::isKeyPressed(Keyboard::Down)) {
-		if (player.shape.getPosition().y + player.sizeSprite.y < (float)(70 * this->game.window.getSize().y / 100)) {
-			player.shape.move(0.f, player.Speed);
-			player.hitbox.move(0.f, player.Speed);
+		if (player.animatedSprite->getPosition().y + player.sizeSprite.y < (float)(70 * this->game.window.getSize().y / 100)) {
+			movement = Vector2f (0.f, player.Speed);
+			player.currentAnimation = player.allAnimations["down"];
+			noKeyWasPressed = false;
 		}
 	}
 	if (Keyboard::isKeyPressed(Keyboard::LShift)) {
 		this->player.Speed = 5.f;
 	}
-	else
-	{
+	else {
 		this->player.Speed = 10.f;
 	}
 
+	
+	//cout << movement.x << " | " << movement.y << endl;
+	player.animatedSprite->move(movement);
+	player.hitbox.move(movement);
+
+	this->player.animatedSprite->move(movement * frameTime.asSeconds());
+
+	if (noKeyWasPressed) {
+		player.currentAnimation = player.allAnimations["afk"];
+	}
+	
 	
 }
 
@@ -175,104 +187,6 @@ void Gameplay::move_enemies() {
 
 
 
-/* --- AIM --- */
-/* Pas opti bonjour ? */
-Vector2f Gameplay::getAutoAim(Bullet bulletAim, Vector2f targetPos) {
-	Vector2f dirTarget;
-	Vector2f dirMax = Vector2f(0.04, 0.04); // vecteur du néo drift max de la bullet
-
-	float x = bulletAim.shape.getPosition().x + bulletAim.sizeSprite.x / 2;
-	float y = bulletAim.shape.getPosition().y + bulletAim.sizeSprite.y / 2;
-	Vector2f bulletCenter = Vector2f(x, y);
-
-	float xTarget = targetPos.x - bulletCenter.x;//(targetPos.x - bulletCenter.x) / (targetPos.x + bulletCenter.x);
-	float yTarget = targetPos.y - bulletCenter.y;//(targetPos.y - bulletCenter.y) / (targetPos.y + bulletCenter.y);
-	float multiplicator = 1 / (abs(xTarget) + abs(yTarget));
-
-
-	float currentX = bulletAim.direction.x / bulletAim.speed;
-	float currentY = bulletAim.direction.y / bulletAim.speed;
-
-	float xTargetAdjust = xTarget * multiplicator;
-	float yTargetAdjust = yTarget * multiplicator;
-
-
-		//cout << "x adjust : " << xTargetAdjust << endl;
-		//cout << "y adjust : " << yTargetAdjust << endl;
-		if (abs(xTargetAdjust) > dirMax.x) {
-			if (currentX - xTargetAdjust > 0) {
-				xTargetAdjust = currentX  - dirMax.x;
-				//cout << "x -- : " << currentX << " | " << xTargetAdjust << endl;
-			}
-			else if(currentX - xTargetAdjust < 0) {
-				xTargetAdjust = currentX + dirMax.x;
-				//cout << "x ++ : " << currentX << " | " << xTargetAdjust << endl;
-			}
-			else {
-				xTargetAdjust = 0.5;
-			}
-		}
-		if (abs(yTargetAdjust) > dirMax.y) {
-			if (currentY - yTargetAdjust > 0) {
-				yTargetAdjust = currentY - dirMax.y;
-				//cout << "y -- : " << currentY << " | " << yTargetAdjust << endl;
-			}
-			else if(currentY - yTargetAdjust < 0) {
-				yTargetAdjust = currentY + dirMax.y;
-				//cout << "y ++ : " << currentY << " | " << yTargetAdjust << endl;
-			}
-			else {
-				yTargetAdjust = 0.5;
-			}
-		}
-
-		multiplicator = 1 / (abs(xTargetAdjust) + abs(yTargetAdjust));
-	
-		//cout << endl;
-
-	dirTarget = Vector2f(xTargetAdjust * multiplicator, yTargetAdjust * multiplicator);
-	//cout << dirTarget.x << " | " << dirTarget.y << endl;
-	return dirTarget;
-}
-Vector2f Gameplay::getClosestEnemy(Bullet bulletAim) {
-	map<float, Vector2f*>  distanceEnemy;
-	//cout << " get -> " << bulletAim.bulletCenter.x << " | " << bulletAim.bulletCenter.y << endl;
-	for (size_t i = 0; i < this->enemiesCenter.size(); i++)
-	{
-		float x2 = enemiesCenter[i]->x;
-		float y2 = enemiesCenter[i]->y;
-		float distance = sqrt(abs(
-			powf((x2 - bulletAim.bulletCenter.x), 2) - /////////////// C4EST FAUX (non c'est vrai je crois)
-			powf((y2 - bulletAim.bulletCenter.y), 2))
-		);
-
-		distanceEnemy[distance] = enemiesCenter[i];
-		//cout << distance << " -> " << enemiesCenter[i]->x << " | " << enemiesCenter[i]->y << endl;
-		
-	}
-	//cout << distanceEnemy.size() << " - " << this->enemiesCenter.size() <<endl;;
-	for (map<float, Vector2f*>::iterator it = distanceEnemy.begin(); it != distanceEnemy.end(); ++it) {
-		//cout << it->first << " - " << it->second->x << " | " << it->second->y << endl;
-	}
-	//cout << endl;
-	
-	if (!distanceEnemy.empty())
-	{
-		pair<float, Vector2f*> closestEnemy
-			= *min_element(distanceEnemy.begin(), distanceEnemy.end(), CompareFirst());
-		
-
-		this->debugClosetEnemy = Vector2f(closestEnemy.second->x, closestEnemy.second->y);
-		return Vector2f(closestEnemy.second->x, closestEnemy.second->y);
-	}
-	else
-	{
-		Vector2f straight = Vector2f(this->game.window.getSize().x, bulletAim.shape.getPosition().y + bulletAim.sizeSprite.y / 2);
-		return straight;
-	}
-	
-
-}
 
 
 /* --- BULLETS --- */
@@ -294,8 +208,8 @@ void Gameplay::check_collision() {
 
 								int xPlayerHitbox = this->player.hitbox.getPosition().x;
 								int yPlayerHitbox = this->player.hitbox.getPosition().y;
-								int xPlayeMaxHitbox = xPlayerHitbox + this->player.sizeSprite.x;
-								int yPlayeMaxHitbox = yPlayerHitbox + this->player.sizeSprite.y;
+								int xPlayeMaxHitbox = xPlayerHitbox + this->player.hitbox.getSize().x;
+								int yPlayeMaxHitbox = yPlayerHitbox + this->player.hitbox.getSize().y;
 
 								int xBullet = this->bullets[b].shape.getPosition().x;
 								int yBullet = this->bullets[b].shape.getPosition().y;
@@ -335,7 +249,7 @@ void Gameplay::check_collision() {
 											this->enemies[i].enemies.erase(this->enemies[i].enemies.begin() + j); /////////// + i ?
 											if (this->enemies[i].enemies.size() == 0) {
 												jmax = j;
-												this->enemies.erase(this->enemies.begin() + i);////////////////// + i ???
+												this->enemies.erase(this->enemies.begin() + i);////////////////// + i ??? wtf ca marche ca ???
 											}
 										}
 
@@ -384,32 +298,10 @@ void Gameplay::move_bullets() {
 
 		}
 		else {
-
-		
-			float x = currentBullet.shape.getPosition().x + currentBullet.sizeSprite.x / 2;
-			float y = currentBullet.shape.getPosition().y + currentBullet.sizeSprite.y / 2;
-			Vector2f bulletCenter = Vector2f(x, y);
-			this->bullets[i].bulletCenter = bulletCenter;
-		
-			if (currentBullet.autoAim) {
-				Vector2f targetDir;
-
-				if (currentBullet.fromPlayer) {/////////////////////////////// calcul from bullet to closest enemy
-					Vector2f closestEnemy = (getClosestEnemy(currentBullet));
-					//cout << closestEnemy.x << " | " << closestEnemy.y << endl;
-					targetDir = getAutoAim(currentBullet, closestEnemy);
-				}
-
-				else {/////////////////////////////// calcul from bullet to player
-					targetDir = getAutoAim(currentBullet, this->player.center);
-				}
-				this->bullets[i].direction = targetDir * currentBullet.speed;
-			}
-
-			
-
+			currentBullet.move_straightForward(this->player.center, this->enemiesCenter);
 			this->bullets[i].shape.move(this->bullets[i].direction);
-			
+			//this->debugClosetEnemy = Vector2f(closestEnemy.second->x, closestEnemy.second->y);
+
 		}
 
 
@@ -469,7 +361,7 @@ void Gameplay::create_bullets_ennemy(Pattern pattern, Vector2f enemyCenter, bool
 			// Bullet with autoAim |  calcul from bullet to player
 			if (bullet_.autoAim) {
 				bullet_.autoAim = true;
-				targetDir = getAutoAim(bullet_, this->player.center);
+				targetDir = bullet_.getAutoAim(this->player.center);
 			}
 
 			//Bullet without autoAim
@@ -510,8 +402,8 @@ void Gameplay::create_bullets_player(Pattern pattern, bool autoAim) {
 				// Bullet with autoAim | calcul from player to closest enemy
 				if (bullet_.autoAim) {
 					bullet_.autoAim = true;
-					Vector2f closestEnemy = (getClosestEnemy(bullet_));
-					targetDir = getAutoAim(bullet_, closestEnemy);
+					Vector2f closestEnemy = (bullet_.getClosestEnemy(this->enemiesCenter));
+					targetDir = bullet_.getAutoAim(closestEnemy);
 				}
 			
 				//Bullet without autoAim
@@ -631,6 +523,7 @@ void Gameplay::game_update() {
 
 
 		if (!pause){
+			this->frameTime = gameplayClock.restart();
 			this->enemiesCenter.clear();
 			this->enemiesHitbox.clear();
 
@@ -774,7 +667,10 @@ void Gameplay::draw_gameplay() {
 	
 
 	/* Draw player */
-	this->game.window.draw(player.shape);
+	//this->game.window.draw(player.shape);
+	this->player.animatedSprite->play((player.currentAnimation));
+	this->player.animatedSprite->update(frameTime);
+	this->game.window.draw((*player.animatedSprite));
 	this->game.window.draw(player.hitbox);
 	
 	/* Draw background */

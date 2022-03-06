@@ -11,8 +11,7 @@ using namespace std;
 
 
 
-class Pattern
-{
+class Pattern {
 private:
 	Time reload;
 	Clock* clock;
@@ -21,7 +20,6 @@ private:
 	Sprite createSprite(string textureName, Vector2f size = Vector2f(1.f, 1.f));
 public:
 	float offset;
-
 	vector<Bullet> bullets;	
 	
 

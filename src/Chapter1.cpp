@@ -1,6 +1,6 @@
 #pragma once
 #include "Chapter.h"
-
+#include "AnimatedSprite.h"
 
 
 
@@ -12,6 +12,8 @@ void Chapter::loadFilesChap1() {
 
 	/*  --- CHARACTER & ENNEMIES --- */
 	this->game.resMgr.loadTexture("Marisa", "Assets/Sprites/Player/marisa.png");
+	this->game.resMgr.loadTexture("Reimu", "Assets/Sprites/Player/reimu.png");
+
 
 	this->game.resMgr.loadTexture("Cirno", "Assets/Sprites/Enemies/cirno.png");
 	this->game.resMgr.loadTexture("brown", "Assets/Sprites/Enemies/brown.png");
@@ -62,7 +64,50 @@ void Chapter::useRessourcesChap1() {
 	Character* charPlayer = new Character (this->createSprite("Marisa"), Vector2f(150, this->game.window.getSize().y / 2), 12);
 	this->gameplay.player = (*charPlayer);
 	*/
-	Character charPlayer(this->createSprite("Marisa"), Vector2f(150, this->game.window.getSize().y / 2), 12);
+	Animation driftingDown;
+	driftingDown.setSpriteSheet(this->game.resMgr.getRefTex("Reimu"));
+	driftingDown.addFrame(sf::IntRect(115, 0, 45, 32));
+	driftingDown.addFrame(sf::IntRect(115, 32, 45, 32));
+	driftingDown.addFrame(sf::IntRect(115, 64, 45, 32));
+	driftingDown.addFrame(sf::IntRect(115, 96, 45, 32));
+	driftingDown.addFrame(sf::IntRect(115, 128, 45, 32));
+	driftingDown.addFrame(sf::IntRect(115, 128 + 32, 45, 32));
+	driftingDown.addFrame(sf::IntRect(115, 128 + 32*2, 45, 32));
+	driftingDown.addFrame(sf::IntRect(115, 128 + 32*3, 45, 32));
+
+	Animation driftingUp;
+	driftingUp.setSpriteSheet(this->game.resMgr.getRefTex("Reimu"));
+	driftingUp.addFrame(sf::IntRect(162, 0, 45, 32));
+	driftingUp.addFrame(sf::IntRect(162, 32, 45, 32));
+	driftingUp.addFrame(sf::IntRect(162, 64, 45, 32));
+	driftingUp.addFrame(sf::IntRect(162, 96, 45, 32));
+	driftingUp.addFrame(sf::IntRect(162, 128, 45, 32));
+	driftingUp.addFrame(sf::IntRect(162, 128 + 32, 45, 32));
+	driftingUp.addFrame(sf::IntRect(162, 128 + 32 * 2, 45, 32));
+	driftingUp.addFrame(sf::IntRect(162, 128 + 32 * 3, 45, 32));
+
+
+	Animation driftingAfk;
+	driftingAfk.setSpriteSheet(this->game.resMgr.getRefTex("Reimu"));
+	driftingAfk.addFrame(sf::IntRect(210, 0, 45, 32));
+	driftingAfk.addFrame(sf::IntRect(210, 32, 45, 32));
+	driftingAfk.addFrame(sf::IntRect(210, 64, 45, 32));
+	driftingAfk.addFrame(sf::IntRect(210, 96, 45, 32));
+	driftingAfk.addFrame(sf::IntRect(210, 128, 45, 32));
+	driftingAfk.addFrame(sf::IntRect(210, 128 + 32, 45, 32));
+	driftingAfk.addFrame(sf::IntRect(210, 128 + 32 * 2, 45, 32));
+	driftingAfk.addFrame(sf::IntRect(210, 128 + 32 * 3, 45, 32));
+
+
+	//paused = false, bool looped = true
+	AnimatedSprite* animatedSprite = new AnimatedSprite(sf::seconds(0.2), false, true);
+
+	map<string, Animation> allAnimations;
+	allAnimations["down"] = driftingDown;
+	allAnimations["up"] = driftingUp;
+	allAnimations["afk"] = driftingAfk;
+
+	Character charPlayer(animatedSprite, allAnimations, Vector2f(150, this->game.window.getSize().y / 2), 12);
 	this->gameplay.player = charPlayer;
 
 
