@@ -1,5 +1,4 @@
-src/Debug
-src/Release
-src/Test SFML Firendly.vcxproj
-src/Test SFML Firendly.vcxproj.filters
-Test SFML Firendly.vcxproj.user
+Weird-Touhou/src/Debug
+Weird-Touhou/src/Release
+Weird-Touhou/src/Test SFML Firendly.vcxproj
+.vs
