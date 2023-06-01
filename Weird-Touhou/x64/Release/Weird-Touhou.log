@@ -1,0 +1,199 @@
+﻿  AnimatedSprite.cpp
+  Animation.cpp
+  BulletFunctions.cpp
+C:\Users\Weyrd\Documents\Github\Weird-Touhou_old\src\BulletFunctions.cpp(46,35): warning C4305: 'argument' : troncation de 'double' à 'T'
+          with
+          [
+              T=float
+          ]
+C:\Users\Weyrd\Documents\Github\Weird-Touhou_old\src\BulletFunctions.cpp(46,29): warning C4305: 'argument' : troncation de 'double' à 'T'
+          with
+          [
+              T=float
+          ]
+  Chapter1.cpp
+C:\Users\Weyrd\Documents\Github\Weird-Touhou_old\src\Chapter1.cpp(103,66): warning C4305: 'argument' : troncation de 'double' à 'float'
+C:\Users\Weyrd\Documents\Github\Weird-Touhou_old\src\Chapter1.cpp(110,98): warning C4244: 'argument' : conversion de 'T' en 'T', perte possible de données
+          with
+          [
+              T=unsigned int
+          ]
+          and
+          [
+              T=float
+          ]
+  CharacterFunctions.cpp
+  Enemy.cpp
+C:\Users\Weyrd\Documents\Github\Weird-Touhou_old\src\Enemy.cpp(60,60): warning C4305: 'argument' : troncation de 'double' à 'T'
+          with
+          [
+              T=float
+          ]
+C:\Users\Weyrd\Documents\Github\Weird-Touhou_old\src\Enemy.cpp(60,55): warning C4305: 'argument' : troncation de 'double' à 'T'
+          with
+          [
+              T=float
+          ]
+C:\Users\Weyrd\Documents\Github\Weird-Touhou_old\src\Enemy.cpp(91,60): warning C4305: 'argument' : troncation de 'double' à 'T'
+          with
+          [
+              T=float
+          ]
+C:\Users\Weyrd\Documents\Github\Weird-Touhou_old\src\Enemy.cpp(91,55): warning C4305: 'argument' : troncation de 'double' à 'T'
+          with
+          [
+              T=float
+          ]
+C:\Users\Weyrd\Documents\Github\Weird-Touhou_old\src\Enemy.cpp(92,61): warning C4305: 'argument' : troncation de 'double' à 'T'
+          with
+          [
+              T=float
+          ]
+C:\Users\Weyrd\Documents\Github\Weird-Touhou_old\src\Enemy.cpp(92,56): warning C4305: 'argument' : troncation de 'double' à 'T'
+          with
+          [
+              T=float
+          ]
+C:\Users\Weyrd\Documents\Github\Weird-Touhou_old\src\Enemy.cpp(93,61): warning C4305: 'argument' : troncation de 'double' à 'T'
+          with
+          [
+              T=float
+          ]
+C:\Users\Weyrd\Documents\Github\Weird-Touhou_old\src\Enemy.cpp(93,56): warning C4305: 'argument' : troncation de 'double' à 'T'
+          with
+          [
+              T=float
+          ]
+  Game.cpp
+C:\Users\Weyrd\Documents\Github\Weird-Touhou_old\src\Game.cpp(27,22): warning C4244: '=' : conversion de 'float' en 'int', perte possible de données
+  Gameplay.cpp
+C:\Users\Weyrd\Documents\Github\Weird-Touhou_old\src\Gameplay.cpp(115,22): warning C4553: '==' : résultat de l'expression non utilisé ; souhaitiez-vous utiliser '=' ?
+C:\Users\Weyrd\Documents\Github\Weird-Touhou_old\src\Gameplay.cpp(148,80): warning C4244: 'argument' : conversion de 'float' en 'const unsigned __int64', perte possible de données
+C:\Users\Weyrd\Documents\Github\Weird-Touhou_old\src\Gameplay.cpp(198,14): warning C4267: 'initialisation' : conversion de 'size_t' en 'int', perte possible de données
+C:\Users\Weyrd\Documents\Github\Weird-Touhou_old\src\Gameplay.cpp(204,21): warning C4244: 'initialisation' : conversion de 'const T' en 'int', perte possible de données
+          with
+          [
+              T=float
+          ]
+C:\Users\Weyrd\Documents\Github\Weird-Touhou_old\src\Gameplay.cpp(205,21): warning C4244: 'initialisation' : conversion de 'const T' en 'int', perte possible de données
+          with
+          [
+              T=float
+          ]
+C:\Users\Weyrd\Documents\Github\Weird-Touhou_old\src\Gameplay.cpp(206,24): warning C4244: 'initialisation' : conversion de 'T' en 'int', perte possible de données
+          with
+          [
+              T=float
+          ]
+C:\Users\Weyrd\Documents\Github\Weird-Touhou_old\src\Gameplay.cpp(207,24): warning C4244: 'initialisation' : conversion de 'T' en 'int', perte possible de données
+          with
+          [
+              T=float
+          ]
+C:\Users\Weyrd\Documents\Github\Weird-Touhou_old\src\Gameplay.cpp(209,27): warning C4244: 'initialisation' : conversion de 'const T' en 'int', perte possible de données
+          with
+          [
+              T=float
+          ]
+C:\Users\Weyrd\Documents\Github\Weird-Touhou_old\src\Gameplay.cpp(210,27): warning C4244: 'initialisation' : conversion de 'const T' en 'int', perte possible de données
+          with
+          [
+              T=float
+          ]
+C:\Users\Weyrd\Documents\Github\Weird-Touhou_old\src\Gameplay.cpp(211,29): warning C4244: 'initialisation' : conversion de 'T' en 'int', perte possible de données
+          with
+          [
+              T=float
+          ]
+C:\Users\Weyrd\Documents\Github\Weird-Touhou_old\src\Gameplay.cpp(212,29): warning C4244: 'initialisation' : conversion de 'T' en 'int', perte possible de données
+          with
+          [
+              T=float
+          ]
+C:\Users\Weyrd\Documents\Github\Weird-Touhou_old\src\Gameplay.cpp(214,21): warning C4244: 'initialisation' : conversion de 'const T' en 'int', perte possible de données
+          with
+          [
+              T=float
+          ]
+C:\Users\Weyrd\Documents\Github\Weird-Touhou_old\src\Gameplay.cpp(215,21): warning C4244: 'initialisation' : conversion de 'const T' en 'int', perte possible de données
+          with
+          [
+              T=float
+          ]
+C:\Users\Weyrd\Documents\Github\Weird-Touhou_old\src\Gameplay.cpp(216,24): warning C4244: 'initialisation' : conversion de 'T' en 'int', perte possible de données
+          with
+          [
+              T=float
+          ]
+C:\Users\Weyrd\Documents\Github\Weird-Touhou_old\src\Gameplay.cpp(217,24): warning C4244: 'initialisation' : conversion de 'T' en 'int', perte possible de données
+          with
+          [
+              T=float
+          ]
+C:\Users\Weyrd\Documents\Github\Weird-Touhou_old\src\Gameplay.cpp(238,91): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
+          with
+          [
+              T=float
+          ]
+C:\Users\Weyrd\Documents\Github\Weird-Touhou_old\src\Gameplay.cpp(238,67): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
+          with
+          [
+              T=float
+          ]
+C:\Users\Weyrd\Documents\Github\Weird-Touhou_old\src\Gameplay.cpp(239,35): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\Weyrd\Documents\Github\Weird-Touhou_old\src\Gameplay.cpp(239,26): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\Weyrd\Documents\Github\Weird-Touhou_old\src\Gameplay.cpp(499,23): warning C4244: 'initialisation' : conversion de 'double' en 'float', perte possible de données
+C:\Users\Weyrd\Documents\Github\Weird-Touhou_old\src\Gameplay.cpp(543,71): warning C4267: 'argument' : conversion de 'size_t' en 'int', perte possible de données
+C:\Users\Weyrd\Documents\Github\Weird-Touhou_old\src\Gameplay.cpp(543,43): warning C4267: 'argument' : conversion de 'size_t' en 'int', perte possible de données
+C:\Users\Weyrd\Documents\Github\Weird-Touhou_old\src\Gameplay.cpp(637,70): warning C4244: 'argument' : conversion de 'float' en 'const unsigned __int64', perte possible de données
+  loadchapter.cpp
+C:\Users\Weyrd\Documents\Github\Weird-Touhou_old\src\loadchapter.cpp(23,22): warning C4244: 'initialisation' : conversion de 'double' en 'float', perte possible de données
+  loadSprites.cpp
+  Menu.cpp
+C:\Users\Weyrd\Documents\Github\Weird-Touhou_old\src\Menu.cpp(111,21): warning C4267: 'initialisation' : conversion de 'size_t' en 'int', perte possible de données
+C:\Users\Weyrd\Documents\Github\Weird-Touhou_old\src\Menu.cpp(183,50): warning C4267: '=' : conversion de 'size_t' en 'int', perte possible de données
+  Path.cpp
+C:\Users\Weyrd\Documents\Github\Weird-Touhou_old\src\Path.cpp(13,36): warning C4305: '+=' : troncation de 'double' à 'float'
+C:\Users\Weyrd\Documents\Github\Weird-Touhou_old\src\Path.cpp(24,36): warning C4305: '+=' : troncation de 'double' à 'float'
+C:\Users\Weyrd\Documents\Github\Weird-Touhou_old\src\Path.cpp(35,36): warning C4305: '+=' : troncation de 'double' à 'float'
+C:\Users\Weyrd\Documents\Github\Weird-Touhou_old\src\Path.cpp(46,36): warning C4305: '+=' : troncation de 'double' à 'float'
+C:\Users\Weyrd\Documents\Github\Weird-Touhou_old\src\Path.cpp(57,36): warning C4305: '+=' : troncation de 'double' à 'float'
+  Pattern.cpp
+C:\Users\Weyrd\Documents\Github\Weird-Touhou_old\src\Pattern.cpp(49,34): warning C4244: 'argument' : conversion de 'float' en 'sf::Int32', perte possible de données
+C:\Users\Weyrd\Documents\Github\Weird-Touhou_old\src\Pattern.cpp(55,83): warning C4305: 'argument' : troncation de 'double' à 'T'
+          with
+          [
+              T=float
+          ]
+C:\Users\Weyrd\Documents\Github\Weird-Touhou_old\src\Pattern.cpp(55,78): warning C4305: 'argument' : troncation de 'double' à 'T'
+          with
+          [
+              T=float
+          ]
+C:\Users\Weyrd\Documents\Github\Weird-Touhou_old\src\Pattern.cpp(65,34): warning C4244: 'argument' : conversion de 'float' en 'sf::Int32', perte possible de données
+C:\Users\Weyrd\Documents\Github\Weird-Touhou_old\src\Pattern.cpp(81,34): warning C4244: 'argument' : conversion de 'float' en 'sf::Int32', perte possible de données
+C:\Users\Weyrd\Documents\Github\Weird-Touhou_old\src\Pattern.cpp(88,93): warning C4305: 'argument' : troncation de 'double' à 'T'
+          with
+          [
+              T=float
+          ]
+C:\Users\Weyrd\Documents\Github\Weird-Touhou_old\src\Pattern.cpp(88,88): warning C4305: 'argument' : troncation de 'double' à 'T'
+          with
+          [
+              T=float
+          ]
+C:\Users\Weyrd\Documents\Github\Weird-Touhou_old\src\Pattern.cpp(89,93): warning C4305: 'argument' : troncation de 'double' à 'T'
+          with
+          [
+              T=float
+          ]
+C:\Users\Weyrd\Documents\Github\Weird-Touhou_old\src\Pattern.cpp(89,88): warning C4305: 'argument' : troncation de 'double' à 'T'
+          with
+          [
+              T=float
+          ]
+C:\Users\Weyrd\Documents\Github\Weird-Touhou_old\src\Pattern.cpp(99,34): warning C4244: 'argument' : conversion de 'float' en 'sf::Int32', perte possible de données
+  PatternMove.cpp
+  RessourceManager.cpp
+MSVCRT.lib(exe_winmain.obj) : error LNK2001: symbole externe non résolu WinMain
+C:\Users\Weyrd\Documents\Github\Weird-Touhou\x64\Release\Weird-Touhou.exe : fatal error LNK1120: 1 externes non résolus
